@@ -1,0 +1,28 @@
+
+spring:
+  application:
+    name: product-service
+  config:
+    import: "optional:configserver:http://localhost:9199"
+  data:
+    jpa:
+      repositories:
+        enabled: true
+  datasource:
+    password: 654321
+    url: jdbc:mysql://localhost:3306/product-service?createDatabaseIfNotExist=true
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    properties:
+      hibernate:
+        format: true
+    show-sql: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
