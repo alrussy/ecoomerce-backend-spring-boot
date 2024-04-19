@@ -1,19 +1,13 @@
 package com.alrussy.gatewayapi.filter;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.gateway.server.mvc.filter.FilterFunctions;
-import org.springframework.cloud.gateway.server.mvc.filter.TokenRelayFilterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.servlet.function.HandlerFilterFunction;
-import org.springframework.web.servlet.function.HandlerFunction;
-import org.springframework.web.servlet.function.RequestPredicate;
 import org.springframework.web.servlet.function.RequestPredicates;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
@@ -30,8 +24,6 @@ public class Routes {
 
 	@Autowired
 	private IdantityClient client;
-	@Autowired
-	RouteValid routeValid;
 	public final List<String> openApiEndpoints=List.of("/api/auth/register","/api/auth/token");
 
 	@Bean 
