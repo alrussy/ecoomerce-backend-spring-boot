@@ -63,4 +63,9 @@ public class UserService implements UserDetailsService {
 	else	
 	throw new IllegalStateException("invalid cerdential");
 	}
+
+	public Boolean tokenValid(String token) {
+		
+		return JwtUtils.isValid(token);
+	}
 }

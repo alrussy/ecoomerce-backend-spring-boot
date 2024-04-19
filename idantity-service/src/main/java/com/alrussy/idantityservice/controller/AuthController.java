@@ -28,4 +28,10 @@ public class AuthController {
 		
 		return ResponseEntity.ok(userService.authenticated(credential));
 	}
+	
+	@PostMapping("/valid")
+	public ResponseEntity<Boolean> validToken(@RequestBody String token) {
+		
+		return ResponseEntity.ok(userService.tokenValid(token));
+	}
 }
