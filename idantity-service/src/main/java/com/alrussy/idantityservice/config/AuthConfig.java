@@ -53,10 +53,7 @@ public class AuthConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.csrf(AbstractHttpConfigurer::disable)
 		.authorizeHttpRequests(auth -> {
-			auth.requestMatchers("api/auth/**").permitAll()
-			.requestMatchers("/api/products/**").hasAnyAuthority("USER","ADMIN")
-			.requestMatchers("api/test/admin/**").hasAnyAuthority("ADMIN")
-			.anyRequest().authenticated();
+			auth.anyRequest().permitAll();
 		})
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authenticationProvider(authenticationProvider())

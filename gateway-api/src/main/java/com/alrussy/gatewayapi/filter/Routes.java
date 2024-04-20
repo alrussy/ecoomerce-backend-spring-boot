@@ -7,13 +7,14 @@ import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctio
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.function.HandlerFilterFunction;
 import org.springframework.web.servlet.function.RequestPredicates;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import com.alrussy.gatewayapi.client.IdantityClient;
-import com.google.common.net.HttpHeaders;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +25,9 @@ public class Routes {
 
 	@Autowired
 	private IdantityClient client;
+		
 	public final List<String> openApiEndpoints=List.of("/api/auth/register","/api/auth/token");
+	
 
 	@Bean 
 	RouterFunction<ServerResponse> productServiceRoute(){
@@ -46,21 +49,20 @@ public class Routes {
 	}
 	
 	
-	HandlerFilterFunction<ServerResponse, ServerResponse> filterFunction (){
-		return (request, next) ->  
-		{
+	private HandlerFilterFunction<ServerResponse, ServerResponse> filterFunction (){
+		
+		return (request, next) ->  {
+			
 			if(openApiEndpoints.contains(request.path()))
 		{
-				return next.handle(request);
-			
+				return next.handle(request);	
 		}
 		if(! request.headers().asHttpHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
 			throw new IllegalArgumentException("missing auth information"+ request.path());
 		}
 		String authHeader=request.headers().asHttpHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
 		String token =authHeader.substring(7);
-		log.info("======================"+client.validToken(token).getBody());
-		if(client.validToken(token).getBody()) {
+		if(client.validToken(token).getStatusCode()== HttpStatus.OK) {
 		return next.handle(request);
 		}
 		else

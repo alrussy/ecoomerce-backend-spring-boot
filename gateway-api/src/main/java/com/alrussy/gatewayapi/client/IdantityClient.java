@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface IdantityClient {
 	
 	@PostMapping(path = "/valid")
-	public ResponseEntity<Boolean> validToken(@RequestBody String token);
+	public ResponseEntity<String> validToken(@RequestBody String token);
 
 }

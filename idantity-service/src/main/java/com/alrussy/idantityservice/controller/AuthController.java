@@ -30,7 +30,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/valid")
-	public ResponseEntity<Boolean> validToken(@RequestBody String token) {
+	public ResponseEntity<String> validToken(@RequestBody String token) {
 		
 		return ResponseEntity.ok(userService.tokenValid(token));
 	}

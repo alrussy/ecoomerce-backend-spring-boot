@@ -14,8 +14,20 @@ spring:
     show-sql: true
   main:
     allow-circular-references: true
-
+  boot:
+    admin:
+      client:
+        url:
+        - http://localhost:9200
 management:
   tracing:
     sampling:
       probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"  
+  info:
+    env:
+      enabled: true
