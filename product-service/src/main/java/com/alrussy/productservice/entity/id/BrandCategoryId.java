@@ -4,16 +4,12 @@ import java.io.Serializable;
 
 import com.alrussy.productservice.entity.Brand;
 import com.alrussy.productservice.entity.Category;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,7 +33,6 @@ public class BrandCategoryId implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "categoryId")
 	private Category category;
-	
 	
 	@ManyToOne
 	@JoinColumn(name = "brandId")

@@ -1,28 +1,33 @@
 package com.alrussy.productservice.entity;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.product_dto.ProductResponse;
 import com.alrussy.productservice.entity.table.BrandCategory;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "products")
-public class Product {
+@EntityListeners(AuditingEntityListener.class)
+public class Product extends Audition{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

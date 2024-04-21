@@ -1,13 +1,9 @@
 package com.alrussy.productservice.entity.table;
 
-import java.util.List;
-
-import com.alrussy.productservice.entity.Product;
 import com.alrussy.productservice.entity.id.BrandCategoryId;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

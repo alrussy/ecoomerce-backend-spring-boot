@@ -17,7 +17,7 @@ import com.alrussy.productservice.service.BrandService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/brands")
+@RequestMapping("/api/products/brands")
 @RequiredArgsConstructor
 public class BrandController {
 

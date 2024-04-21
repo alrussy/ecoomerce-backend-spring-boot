@@ -12,11 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.function.HandlerFilterFunction;
 import org.springframework.web.servlet.function.RequestPredicates;
 import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import com.alrussy.gatewayapi.client.IdantityClient;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import static org.springframework.cloud.gateway.server.mvc.filter.BeforeFilterFunctions.addRequestHeader;
 
 
 @Configuration
@@ -25,13 +28,18 @@ public class Routes {
 
 	@Autowired
 	private IdantityClient client;
+	
+	private String userDetails ;
 		
 	public final List<String> openApiEndpoints=List.of("/api/auth/register","/api/auth/token");
 	
 
 	@Bean 
 	RouterFunction<ServerResponse> productServiceRoute(){
-		return GatewayRouterFunctions.route("product-service").route(RequestPredicates.path("/api/products/**"),HandlerFunctions.http("http://localhost:9191")).filter(filterFunction()).build();
+		return GatewayRouterFunctions
+				.route("product-service")
+				.route(RequestPredicates.path("/api/products/**"),HandlerFunctions.http("http://localhost:9191")).filter(filterFunction())
+				.build();
 	}
 	@Bean 
 	RouterFunction<ServerResponse> orderServiceRoute(){
@@ -62,8 +70,11 @@ public class Routes {
 		}
 		String authHeader=request.headers().asHttpHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
 		String token =authHeader.substring(7);
-		if(client.validToken(token).getStatusCode()== HttpStatus.OK) {
-		return next.handle(request);
+		userDetails=client.validToken(token).getBody();
+		if(userDetails !=null) {
+			log.info(userDetails);
+			ServerRequest serverRequest= ServerRequest.from(request).header("X-User-Details", userDetails).build();
+		return next.handle(serverRequest);
 		}
 		else
 			throw new IllegalArgumentException("token is not valid");

@@ -21,7 +21,6 @@ import com.alrussy.idantityservice.service.UserService;
 
 @Configuration
 @EnableWebSecurity
-
 public class AuthConfig {
 
 

@@ -2,10 +2,13 @@ package com.alrussy.productservice.entity;
 
 import java.util.List;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.details_name_dto.DetailsNameResponse;
-import com.alrussy.productservice.dto.details_value_dto.DetailsValueResponse;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,19 +16,20 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "detailsNamee")
-public class DetailsName {
+@EntityListeners(AuditingEntityListener.class)
+public class DetailsName extends Audition{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -34,6 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductController {
 
 	private final ProductService productService;
+	private final HttpServletRequest httpServletRequest;
+	
 	
 	
 	@GetMapping
@@ -43,6 +45,7 @@ public class ProductController {
 	@GetMapping("/filter")
 	
 	public ResponseEntity<?> filter(@RequestBody ProductFilter filter){
+	log.info(httpServletRequest.getHeader("X-User-Details"));
 		return ResponseEntity.ok(productService.filter(filter));
 	}
 	@GetMapping("/{id}")
