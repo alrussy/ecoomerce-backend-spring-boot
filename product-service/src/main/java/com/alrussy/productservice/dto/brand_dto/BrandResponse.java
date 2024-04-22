@@ -2,24 +2,12 @@ package com.alrussy.productservice.dto.brand_dto;
 
 import java.util.List;
 
-import com.alrussy.productservice.dto.category_dto.CategoryResponse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 
-public class BrandResponse {
+public record BrandResponse( Long id, String name, String imageUrl, List<CategoryResponse> categories){
 
-	private Long id;
-	private String name;
-	private String imageUrl;
-	private List<CategoryResponse> categories;
-
+	public record CategoryResponse(Long id,String name) {		
+	
+	}
+	
 }

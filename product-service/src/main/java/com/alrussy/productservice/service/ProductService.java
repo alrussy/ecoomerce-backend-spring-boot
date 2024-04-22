@@ -30,9 +30,9 @@ public class ProductService {
 
 	}
 
-	public Product save(ProductRequest productRequest) {
+	public ProductResponse save(ProductRequest productRequest) {
 
-		return productRepository.save(productRequest.mapToprProduct());
+		return productRepository.save(productRequest.mapToprProduct()).mapToproductResponse();
 	}
 	
 	public String delete(Long id) {

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.alrussy.idantityservice.dto.RegisterationRequest;
 import com.alrussy.idantityservice.dto.TokenResponse;
 import com.alrussy.idantityservice.dto.UserCredential;
+import com.alrussy.idantityservice.dto.UserDetailsResponse;
 import com.alrussy.idantityservice.entity.Role;
 import com.alrussy.idantityservice.entity.User;
 import com.alrussy.idantityservice.repository.UserRepository;
@@ -64,9 +65,10 @@ public class UserService implements UserDetailsService {
 	throw new IllegalStateException("invalid cerdential");
 	}
 
-	public String tokenValid(String token) {
+	public UserDetailsResponse tokenValid(String token) {
 		if(JwtUtils.isValid(token))
-			return JwtUtils.extractUserName(token);
+			return((User)loadUserByUsername(JwtUtils.extractUserName(token))).mapToUserDetailsResponse();
+			
 		else
 			throw new IllegalStateException("token is not valid");
 

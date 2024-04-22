@@ -67,6 +67,11 @@ public class DetailsValueService {
 		
 		return 		detailsValueRepository.save(detailsValueFind).mapToDetailsValueResponse();
 	}
+
+	public List<DetailsValueResponse> findByDetailsName(Long id) {
+		// TODO Auto-generated method stub
+		return detailsValueRepository.findByDetailsNameId(id);
+	}
 	
 	
 

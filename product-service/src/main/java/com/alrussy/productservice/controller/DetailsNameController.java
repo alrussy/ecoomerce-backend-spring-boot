@@ -1,5 +1,7 @@
 package com.alrussy.productservice.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alrussy.productservice.dto.details_name_dto.DetailsNameRequest;
+import com.alrussy.productservice.dto.details_name_dto.DetailsNameResponse;
 import com.alrussy.productservice.entity.DetailsName;
 import com.alrussy.productservice.service.DetailsNameService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/details-names")
+@RequestMapping("/api/products/details-names")
 @RequiredArgsConstructor
 public class DetailsNameController {
 
@@ -25,25 +28,25 @@ public class DetailsNameController {
 	
 	
 	@GetMapping
-	public ResponseEntity<?> findAll(){
+	public ResponseEntity<List<DetailsNameResponse>> findAll(){
 		return ResponseEntity.ok(detailsNameService.findAll());
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findById(@PathVariable Long id){
+	public ResponseEntity<DetailsNameResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok(detailsNameService.findById(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody DetailsNameRequest detailsName){
+	public ResponseEntity<DetailsNameResponse> save(@RequestBody DetailsNameRequest detailsName){
 		return ResponseEntity.ok(detailsNameService.save(detailsName));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id ,@RequestBody DetailsNameRequest detailsName){
+	public ResponseEntity<DetailsNameResponse> update(@PathVariable Long id ,@RequestBody DetailsNameRequest detailsName){
 		return ResponseEntity.ok(detailsNameService.update(id,detailsName));
 	}
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id){
+	public ResponseEntity<String> delete(@PathVariable Long id){
 		detailsNameService.delete(id);
 	return ResponseEntity.ok("delete By "+id+" is successfuly");
 	}

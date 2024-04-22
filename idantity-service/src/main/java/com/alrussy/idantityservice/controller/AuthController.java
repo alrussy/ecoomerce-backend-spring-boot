@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.alrussy.idantityservice.dto.RegisterationRequest;
 import com.alrussy.idantityservice.dto.UserCredential;
+import com.alrussy.idantityservice.dto.UserDetailsResponse;
 import com.alrussy.idantityservice.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/valid")
-	public ResponseEntity<String> validToken(@RequestBody String token) {
+	public ResponseEntity<UserDetailsResponse> validToken(@RequestBody String token) {
 		
 		return ResponseEntity.ok(userService.tokenValid(token));
 	}

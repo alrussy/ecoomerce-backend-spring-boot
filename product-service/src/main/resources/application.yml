@@ -39,3 +39,17 @@ management:
   info:
     env:
       enabled: true
+      
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true   
+    path: sawwger-ui-product.html
+    operations-sorter: method
+
+  #packages-to-scan:
+  
+  
+ 

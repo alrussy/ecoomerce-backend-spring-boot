@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "products")
 @EntityListeners(AuditingEntityListener.class)
-public class Product extends Audition{
+public class Product extends Audition {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,14 +40,12 @@ public class Product extends Audition{
 	private BrandCategory brandCategory;
 
 	public ProductResponse mapToproductResponse() {
-		return new ProductResponse(
-				id, 
-				name,
-				price, 
-				isActivity,
-				brandCategory.getBrandCategoryId().getCategory().mapToCategoryResponse(),
-				brandCategory.getBrandCategoryId().getBrand().mapToBrandResponse());
-		
+		return new ProductResponse(id, name, price, isActivity,
+				new ProductResponse.CategoryResponse(brandCategory.getBrandCategoryId().getCategory().getId(),
+						brandCategory.getBrandCategoryId().getCategory().getName()),
+				new ProductResponse.BrandResponse(brandCategory.getBrandCategoryId().getBrand().getId(),
+						brandCategory.getBrandCategoryId().getBrand().getName()));
+
 	}
 
 }
