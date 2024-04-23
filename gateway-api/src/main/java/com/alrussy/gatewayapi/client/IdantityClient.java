@@ -11,6 +11,6 @@ import com.alrussy.gatewayapi.model.UserDetails;
 public interface IdantityClient {
 	
 	@PostMapping(path = "/valid")
-	public ResponseEntity<UserDetails> validToken(@RequestBody String token);
+	public  ResponseEntity<UserDetails> validToken(@RequestBody String token);
 
 }

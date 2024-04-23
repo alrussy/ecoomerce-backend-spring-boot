@@ -35,12 +35,7 @@ public class Category extends Audition {
 
 	
 	public CategoryResponse mapToCategoryResponse() {
-		return CategoryResponse
-				.builder()
-				.id(id)
-				.name(name)
-				.imageUrl(imageUrl)
-				.build();
+		return new CategoryResponse(id,name,imageUrl);
 	}
 	
 }

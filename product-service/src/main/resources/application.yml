@@ -26,7 +26,9 @@ spring:
       client:
         url:
         - http://localhost:9200
-        
+  jackson:
+    default-property-inclusion: non-null
+ # proprties zipkin and admin        
 management:
   tracing:
     sampling:
@@ -39,7 +41,7 @@ management:
   info:
     env:
       enabled: true
-      
+     #=============swagger 
 springdoc:
   api-docs:
     enabled: true
@@ -48,8 +50,8 @@ springdoc:
     enabled: true   
     path: sawwger-ui-product.html
     operations-sorter: method
+  packages-to-scan: com.alrussy.productservice.controller;
 
-  #packages-to-scan:
   
   
  

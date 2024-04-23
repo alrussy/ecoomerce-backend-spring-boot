@@ -20,7 +20,6 @@ public class ProductService {
 	private final ProductRepository productRepository;
 
 	public List<ProductResponse> findAll() {
-
 		return productRepository.findAll().stream().map(Product::mapToproductResponse).toList();
 	}
 

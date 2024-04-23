@@ -66,8 +66,11 @@ public class UserService implements UserDetailsService {
 	}
 
 	public UserDetailsResponse tokenValid(String token) {
-		if(JwtUtils.isValid(token))
-			return((User)loadUserByUsername(JwtUtils.extractUserName(token))).mapToUserDetailsResponse();
+		if(JwtUtils.isValid(token)) {
+			UserDetailsResponse user=((User)loadUserByUsername(JwtUtils.extractUserName(token))).mapToUserDetailsResponse();
+			log.info(user.getRoles().get(0));
+			return user;
+			}
 			
 		else
 			throw new IllegalStateException("token is not valid");

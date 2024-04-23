@@ -1,14 +1,10 @@
 package com.alrussy.productservice.repository.specification;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.data.jpa.domain.Specification;
-
-import com.alrussy.productservice.dto.product_dto.PriceFilter;
 import com.alrussy.productservice.dto.product_dto.ProductFilter;
+import com.alrussy.productservice.dto.product_dto.ProductFilter.PriceFilter;
 import com.alrussy.productservice.entity.Product;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -59,7 +55,6 @@ public class ProductSpecification implements Specification<Product> {
 				 predicates.add(criteriaBuilder.lessThan(root.get("price"),filter.price().price()));
 				
 		}
-		
 		
 		return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 	}

@@ -3,6 +3,8 @@ package com.alrussy.productservice.entity;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.alrussy.productservice.audititon.Audition;
+import com.alrussy.productservice.dto.brand_dto.BrandResponse;
+import com.alrussy.productservice.dto.category_dto.CategoryResponse;
 import com.alrussy.productservice.dto.product_dto.ProductResponse;
 import com.alrussy.productservice.entity.table.BrandCategory;
 
@@ -41,10 +43,9 @@ public class Product extends Audition {
 
 	public ProductResponse mapToproductResponse() {
 		return new ProductResponse(id, name, price, isActivity,
-				new ProductResponse.CategoryResponse(brandCategory.getBrandCategoryId().getCategory().getId(),
-						brandCategory.getBrandCategoryId().getCategory().getName()),
-				new ProductResponse.BrandResponse(brandCategory.getBrandCategoryId().getBrand().getId(),
-						brandCategory.getBrandCategoryId().getBrand().getName()));
+				new CategoryResponse(brandCategory.getBrandCategoryId().getCategory().getId(),brandCategory.getBrandCategoryId().getCategory().getName(),brandCategory.getBrandCategoryId().getCategory().getImageUrl()),
+				new BrandResponse(brandCategory.getBrandCategoryId().getBrand().getId(), brandCategory.getBrandCategoryId().getBrand().getName(), brandCategory.getBrandCategoryId().getBrand().getImageUrl(), null));
+						
 
 	}
 

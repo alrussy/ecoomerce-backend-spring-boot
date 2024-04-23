@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.brand_dto.BrandResponse;
-import com.alrussy.productservice.dto.brand_dto.BrandResponse.CategoryResponse;
+import com.alrussy.productservice.dto.category_dto.CategoryResponse;
 import com.alrussy.productservice.entity.table.BrandCategory;
 
 import jakarta.persistence.CascadeType;
@@ -47,7 +47,7 @@ public class Brand extends Audition{
 
 	public BrandResponse mapToBrandResponse() {
 		return new BrandResponse(id,name,imageUrl,
-				categories.stream().map(category -> new BrandResponse.CategoryResponse(category.getBrandCategoryId().getCategory().getId(), category.getBrandCategoryId().getCategory().getName())).toList());
+				categories.stream().map(category->category.getBrandCategoryId().getCategory().mapToCategoryResponse()).toList());
 				
 	}
 
