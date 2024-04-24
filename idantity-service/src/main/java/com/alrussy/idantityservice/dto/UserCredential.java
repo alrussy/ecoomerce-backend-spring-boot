@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserCredential {
+public class UserCredential{
 
 	private String email;
 	private String password;

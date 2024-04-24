@@ -1,5 +1,7 @@
 package com.alrussy.idantityservice.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import com.alrussy.idantityservice.entity.Role;
 import com.alrussy.idantityservice.entity.User;
 import com.alrussy.idantityservice.repository.UserRepository;
 import com.alrussy.idantityservice.security.JwtUtils;
+
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +38,10 @@ public class UserService implements UserDetailsService {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private  UserRepository repository;
+	@Autowired
+	private OtpService otpService;
+
+	
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -48,25 +56,28 @@ public class UserService implements UserDetailsService {
 		}
 		request.setPassword(encoder.encode(request.getPassword()));
 		User user= request.mapToUser();
-		user.setIsEnabled(true);
 		user.setRoles(Set.of(Role.builder().id(1L).build()));
+		user.setOtp(otpService.sendAndSaveOtp(request.getEmail()));
 		repository.save(user);
 		return "register is successfuly..";
 	}
 	
 	public TokenResponse authenticated(UserCredential  credential) {
+		
 	Authentication authentication=	authenticationManager.authenticate(UsernamePasswordAuthenticationToken.unauthenticated(credential.getEmail(), credential.getPassword()));
-	log.info("======================================="+authentication.isAuthenticated());
-	if(authentication.isAuthenticated()) {
-		 String tokenAccess= JwtUtils.generateTokin(credential.getEmail());
+	User user=(User) authentication.getPrincipal();
+	log.info("======================================="+user.getAuthorities().size());
+	
+	var claims = new HashMap<String,Object>();
+	claims.put("fullName", user.getName());
+		 String tokenAccess= JwtUtils.generateTokin(claims,user);
 		 return TokenResponse.builder().tokenAccess(tokenAccess).build();
-		}
-	else	
-	throw new IllegalStateException("invalid cerdential");
 	}
 
+	
 	public UserDetailsResponse tokenValid(String token) {
 		if(JwtUtils.isValid(token)) {
+			log.info(JwtUtils.extractAuthoriteis(token).toString());
 			UserDetailsResponse user=((User)loadUserByUsername(JwtUtils.extractUserName(token))).mapToUserDetailsResponse();
 			log.info(user.getRoles().get(0));
 			return user;

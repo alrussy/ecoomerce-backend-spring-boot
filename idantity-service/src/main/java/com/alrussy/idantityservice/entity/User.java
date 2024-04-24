@@ -1,5 +1,6 @@
 package com.alrussy.idantityservice.entity;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -41,7 +43,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name="users")
-public class User implements UserDetails{
+public class User implements UserDetails,Principal{
 	
 	/**
 	 * 
@@ -69,8 +71,9 @@ public class User implements UserDetails{
 	private Set<Role> roles;
 	
 	@NotNull
-	private Boolean isEnabled;
-	
+	@OneToOne(fetch = FetchType.EAGER)
+	private Otp otp;
+
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
@@ -101,13 +104,16 @@ public class User implements UserDetails{
 	}
 	@Override
 	public boolean isEnabled() {
-		return isEnabled;
+		return otp!=null?otp.getIsVerifiy():false;
+	}	
+	
+	@Override
+	public String getName() {
+		return firstName;
 	}
-	
-	
+
 	public UserDetailsResponse mapToUserDetailsResponse() {
 		return UserDetailsResponse.builder().username(email).roles(roles.stream().map(Role::getAuthority).toList()).build();
 		
 	}
-
 }

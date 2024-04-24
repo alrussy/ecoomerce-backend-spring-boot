@@ -13,6 +13,9 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -39,6 +42,7 @@ public class Product extends Audition {
 	private Boolean isActivity;
 
 	@ManyToOne
+	@JoinColumns(  {@JoinColumn(name= "brandId",referencedColumnName =" brandId" ),@JoinColumn(name= "categoryId",referencedColumnName =" categoryId" )})
 	private BrandCategory brandCategory;
 
 	public ProductResponse mapToproductResponse() {

@@ -15,10 +15,11 @@ import org.springframework.web.servlet.function.ServerResponse;
 public class IdantityServiceRoute {
 
 	@Bean
-	RouterFunction<ServerResponse> IdantityServiceRouteGlobal() {
+	RouterFunction<ServerResponse> IdantityServiceRouteGlobal(GlobalFilter filter) {
 		
 		return GatewayRouterFunctions.route("idantity-service").filter(LoadBalancerFilterFunctions.lb("idantity-service"))
 				.route(RequestPredicates.path("/api/auth/**"), http("http://localhost:9195"))
+				.filter(filter.authorizitonFilter("ADMIN"))
 				.build();
 	}
 	
