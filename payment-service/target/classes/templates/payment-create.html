@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	   <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <title>Payment create
+	</title>
+</head>
+
+
+<body>
+
+		<div class="container">
+			<h1 class="text-center mt-5">Paypal Payment Integration</h1>
+		<form class="mt-5 card p-3 " method="post" th:action="@{/payment/create}" th:object="${checkout}">
+		<input type="hidden" th:value="${checkout.total} " th:field="*{total}"></input>
+		<input type="hidden" th:value="${checkout.currency} " th:field="*{currency}"></input>
+		<input type="hidden" th:value="${checkout.paymentMethod} " th:field="*{paymentMethod}"></input>
+				<input type="hidden" th:value="${checkout.intent} " th:field="*{intent}"></input>
+		<input type="hidden" th:value="${checkout.id} " th:field="*{id}"></input>
+
+		<input type="hidden" th:value="${checkout.description} " th:field="*{description}"></input>
+		  <div class="d-flex justify-content-center">
+		    <button type="submit" class="btn btn-primary mb-3">Pay With Paypal</button>
+		  </div>
+		</form>
+		</div>
+    
+</body>
+</html>
