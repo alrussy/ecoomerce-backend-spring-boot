@@ -1,7 +1,7 @@
-package com.alrussy.productservice.dto.details_value_dto;
+package com.alrussy.productservice.dto.details_dto;
 
 import com.alrussy.productservice.entity.DetailsName;
-import com.alrussy.productservice.entity.DetailsValue;
+import com.alrussy.productservice.entity.Details;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,15 +14,15 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DetailsValueRequest {
+public class DetailsRequest {
 	
 	private String value;
 	private Long detailsNameId;
 
 	
-	public DetailsValue mapToDetailsValue() {
-		return DetailsValue.builder()
-				.detailsValue(value)
+	public Details mapToDetailsValue() {
+		return Details.builder()
+				.value(value)
 				.detailsName(DetailsName.builder().id(detailsNameId).build())
 				.build();
 		}

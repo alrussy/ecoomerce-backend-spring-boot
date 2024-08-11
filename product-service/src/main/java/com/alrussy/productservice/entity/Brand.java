@@ -6,7 +6,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.brand_dto.BrandResponse;
-import com.alrussy.productservice.dto.category_dto.CategoryResponse;
 import com.alrussy.productservice.entity.table.BrandCategory;
 
 import jakarta.persistence.CascadeType;
@@ -16,6 +15,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -40,17 +41,19 @@ public class Brand extends Audition{
 	private String name;
 	private String imageUrl;
 
-	@OneToMany(cascade = CascadeType.MERGE, targetEntity = BrandCategory.class)
-	@JoinColumn(name = "brandId")
-	private List<BrandCategory> categories;
+	@OneToMany(mappedBy = "brand", targetEntity = BrandCategory.class)
+	private List<BrandCategory> brandCategory;
 	
 
 	public BrandResponse mapToBrandResponse() {
 		return new BrandResponse(id,name,imageUrl,
-				categories.stream().map(category->category.getBrandCategoryId().getCategory().mapToCategoryResponse()).toList());
+				brandCategory.stream().map(category->category.getCategory().mapToCategoryResponse()).toList());
 				
 	}
 
+	public BrandResponse mapToBrandResponseOutCategory() {
+		return new BrandResponse(id,name,imageUrl,null);				
+	}
 	
 
 }

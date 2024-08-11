@@ -7,6 +7,8 @@ import com.alrussy.productservice.entity.Category;
 import com.alrussy.productservice.entity.id.BrandCategoryId;
 import com.alrussy.productservice.entity.table.BrandCategory;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,16 +24,17 @@ public class BrandRequest {
 
 	private String name;
 	private String imageUrl;
+	@NotEmpty
+	@NotNull
 	private List<Long> categoryIds;
 
 	public Brand mapToBrand() {
 		return Brand.builder().name(name).imageUrl(imageUrl)
-				.categories(categoryIds != null
+				.brandCategory(categoryIds != null
 						? categoryIds.stream()
-								.map(t -> BrandCategory.builder()
-										.brandCategoryId(BrandCategoryId.builder()
+								.map(t -> BrandCategory.builder().brandCategoryId(BrandCategoryId.builder().categoryId(t).build())
 												.category(Category.builder().id(t).build()).build())
-										.build())
+										
 								.toList()
 						: null)
 				.build();

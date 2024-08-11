@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.alrussy.productservice.entity.Brand;
 import com.alrussy.productservice.entity.Category;
+import com.alrussy.productservice.entity.DetailsName;
 import com.alrussy.productservice.entity.Product;
 import com.alrussy.productservice.entity.id.BrandCategoryId;
+import com.alrussy.productservice.entity.id.CategoryDetailsNameId;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.EmbeddedId;
@@ -31,21 +33,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "brand_category")
+@Table(name = "category_details_name")
 
-public class BrandCategory {
+public class CategoryDetailsName {
 	
 	@EmbeddedId
-	private BrandCategoryId brandCategoryId;
+	private CategoryDetailsNameId id;
 	
-	@ManyToOne
-	@JoinColumn(name = "category_id",updatable = false,insertable = false)
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "category_id",updatable = false,insertable = false )
 	@MapsId("categoryId")
 	private Category category;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "brand_id",updatable = false,insertable = false)
-	@MapsId("brandId")
-	private Brand brand;
+	
+	
 
 }

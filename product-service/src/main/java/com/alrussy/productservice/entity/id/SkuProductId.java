@@ -6,8 +6,8 @@ import com.alrussy.productservice.entity.Brand;
 import com.alrussy.productservice.entity.Category;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -22,21 +22,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-
-
-public class BrandCategoryId implements Serializable {
-	
-	/**
+public class SkuProductId implements Serializable{/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -293757139257770506L;
 	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	
-	private Long categoryId;
+	private Long productId;
+	private Long CategoryId;
 	
-	private Long brandId;
-	
-
 
 }

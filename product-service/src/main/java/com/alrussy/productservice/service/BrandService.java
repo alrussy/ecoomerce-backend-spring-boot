@@ -31,7 +31,8 @@ public class BrandService {
 	@Transactional
 	public BrandResponse save(BrandRequest brand) {
 		if (brand != null && brand.getCategoryIds()!=null) {
-			final Brand brandReturn = brandRepository.saveAndFlush(brand.mapToBrand());
+			final Brand brandReturn = brandRepository.save(brand.mapToBrand());
+			
 			brand.getCategoryIds().stream().forEach(t -> brandRepository.saveWithCategories(t, brandReturn.getId()));
 			
 			return brandReturn.mapToBrandResponse();
@@ -65,7 +66,6 @@ public class BrandService {
 		brandFind.setImageUrl(brand.getImageUrl());
 		
 		if(brand.getCategoryIds()!=null) {
-			brandRepository.deleteBrand(id);
 			brand.getCategoryIds().stream().forEach(t -> brandRepository.saveWithCategories(t,id));
 		}
 		

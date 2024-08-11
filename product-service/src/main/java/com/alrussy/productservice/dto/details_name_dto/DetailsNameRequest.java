@@ -3,7 +3,7 @@ package com.alrussy.productservice.dto.details_name_dto;
 import java.util.List;
 
 import com.alrussy.productservice.entity.DetailsName;
-import com.alrussy.productservice.entity.DetailsValue;
+import com.alrussy.productservice.entity.Details;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

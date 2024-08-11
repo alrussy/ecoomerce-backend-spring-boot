@@ -2,7 +2,7 @@ package com.alrussy.productservice.dto.details_name_dto;
 
 import java.util.List;
 
-import com.alrussy.productservice.dto.details_value_dto.DetailsValueResponse;
+import com.alrussy.productservice.dto.details_dto.DetailsResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,5 +19,5 @@ public class DetailsNameResponse {
 
 	private Long id;
 	private String name;
-	private List<DetailsValueResponse> values;
+	private List<DetailsResponse> values;
 }

@@ -1,4 +1,4 @@
-package com.alrussy.productservice.dto.details_value_dto;
+package com.alrussy.productservice.dto.details_dto;
 
 import com.alrussy.productservice.dto.details_name_dto.DetailsNameResponse;
 
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DetailsValueResponse {
+public class DetailsResponse {
 
 	private Long id;
 	private String value;

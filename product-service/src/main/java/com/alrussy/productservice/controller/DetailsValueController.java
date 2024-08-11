@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alrussy.productservice.dto.details_value_dto.DetailsValueRequest;
-import com.alrussy.productservice.dto.details_value_dto.DetailsValueResponse;
-import com.alrussy.productservice.service.DetailsValueService;
+import com.alrussy.productservice.dto.details_dto.DetailsRequest;
+import com.alrussy.productservice.dto.details_dto.DetailsResponse;
+import com.alrussy.productservice.service.DetailsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,30 +23,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DetailsValueController {
 
-	private final DetailsValueService detailsValueService;
+	private final DetailsService detailsValueService;
 	
 	
 	@GetMapping
-	public ResponseEntity<List<DetailsValueResponse>> findAll(){
+	public ResponseEntity<List<DetailsResponse>> findAll(){
 		return ResponseEntity.ok(detailsValueService.findAll());
 	}
 	
 	@GetMapping("/details-name/{id}")
-	public ResponseEntity<List<DetailsValueResponse>> findByDetailsName(@PathVariable Long id){
+	public ResponseEntity<List<DetailsResponse>> findByDetailsName(@PathVariable Long id){
 		return ResponseEntity.ok(detailsValueService.findByDetailsName(id));
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<DetailsValueResponse> findById(@PathVariable Long id){
+	public ResponseEntity<DetailsResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok(detailsValueService.findById(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<DetailsValueResponse> save(@RequestBody DetailsValueRequest detailsValue){
+	public ResponseEntity<DetailsResponse> save(@RequestBody DetailsRequest detailsValue){
 		return ResponseEntity.ok(detailsValueService.save(detailsValue));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<DetailsValueResponse> update(@PathVariable Long id ,@RequestBody DetailsValueRequest detailsValue){
+	public ResponseEntity<DetailsResponse> update(@PathVariable Long id ,@RequestBody DetailsRequest detailsValue){
 		return ResponseEntity.ok(detailsValueService.update(id,detailsValue));
 	}
 	@DeleteMapping("/{id}")

@@ -17,6 +17,7 @@ import com.alrussy.productservice.dto.brand_dto.BrandResponse;
 import com.alrussy.productservice.entity.Brand;
 import com.alrussy.productservice.service.BrandService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -44,7 +45,7 @@ public class BrandController {
 		return ResponseEntity.ok(brandService.findByName(name));
 	}
 	@PostMapping
-	public ResponseEntity<BrandResponse> save(@RequestBody BrandRequest brand){
+	public ResponseEntity<BrandResponse> save(@RequestBody @Valid BrandRequest brand){
 		return ResponseEntity.ok(brandService.save(brand));
 	}
 	

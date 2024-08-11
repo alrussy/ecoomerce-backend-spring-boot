@@ -46,8 +46,6 @@ public class CategoryService {
 
 	@Transactional
 	public void delete(Long id) {
-		categoryRepository.deleteProduct(id);
-		categoryRepository.deleteCategory(id);
 		categoryRepository.deleteAllByIdInBatch(List.of(id));
 	}
 

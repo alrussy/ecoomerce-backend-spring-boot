@@ -1,6 +1,8 @@
-package com.alrussy.productservice.client.Inventory;
+package com.alrussy.productservice.dto.inventory_dto;
 
 import java.util.List;
+
+import com.alrussy.productservice.entity.Details;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
