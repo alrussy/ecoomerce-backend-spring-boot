@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: delivery-service
+  datasource:
+    password: 654321
+    url: jdbc:mysql://localhost:3306/delivery_service?createDatabaseIfNotExist=true
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true  
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+                
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: state_order_delivery_group
+      properties:
+        spring:
+          json:
+            value:
+              default:
+                type: 'com.alrussy.deliveryservice.entity.OrderDeliveryState'
+            type:
+              mapping: 'com.alrussy.inventory_service.model.OrderDeliveryState:com.alrussy.deliveryservice.entity.OrderDeliveryState'
+            trusted:
+              packages: 'com.alrussy.inventory_service.model'
+    
+server:
+  port: 9201
