@@ -1,7 +1,7 @@
 package com.alrussy.order_service.dto;
 import java.math.BigDecimal;
 
-import com.alrussy.order_service.model.OrderLineItems;
+import com.alrussy.order_service.model.OrderLineProducts;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,8 +22,8 @@ public class OrderLineItemsDto {
 
 
     
-    public OrderLineItems mapToOrderLineItems() {
-        return OrderLineItems.builder()
+    public OrderLineProducts mapToOrderLineItems() {
+        return OrderLineProducts.builder()
                 .inventoryId(inventoryId)
                 .price(price)
                 .quentity(quentity)

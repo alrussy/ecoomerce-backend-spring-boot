@@ -1,12 +1,11 @@
 package com.alrussy.order_service.service;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.alrussy.order_service.cliant.InventoryCliant;
+import com.alrussy.order_service.cliant.InventoryClient;
 import com.alrussy.order_service.dto.InventoryOrder;
 import com.alrussy.order_service.dto.InventoryOrderRequest;
 import com.alrussy.order_service.dto.OrderRequest;
@@ -21,7 +20,7 @@ public class OrderService {
     private final OrderRepository repository ;
     
     private final WebClient webClient;
-    private final InventoryCliant cliant;
+    private final InventoryClient client;
 
 
 //    public void  placeOrder(OrderRequest orderRequest){
@@ -48,7 +47,7 @@ public class OrderService {
     	String orderNumber=UUID.randomUUID().toString();
     	
     	
-    	String result= cliant.orderProduct(
+    	String result= client.orderProduct(
     			
     			InventoryOrder.builder()
     			.orderNumber(orderNumber)

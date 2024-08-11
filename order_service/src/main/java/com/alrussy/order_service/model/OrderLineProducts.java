@@ -25,7 +25,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "order_line_items")
-public class OrderLineItems {
+public class OrderLineProducts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

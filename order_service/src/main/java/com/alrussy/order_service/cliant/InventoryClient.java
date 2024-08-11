@@ -9,7 +9,7 @@ import org.springframework.web.service.annotation.PutExchange;
 import com.alrussy.order_service.dto.InventoryOrder;
 
 @FeignClient(name = "inventory-service",path = "/api/inventory")
-public interface InventoryCliant {
+public interface InventoryClient {
 
 
     @PutMapping("/order")
