@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.details_name_dto.DetailsNameResponse;
 
 import jakarta.persistence.Entity;
@@ -42,11 +41,17 @@ public class DetailsName extends Audition{
 	
 	
 	
-	public DetailsNameResponse mapToDetailsNameResponse() {
+	public DetailsNameResponse mapToDetailsNameResponseWithValues() {
 		return DetailsNameResponse.builder()
 				.id(id)
 				.name(detailsName)
-				.values(values!=null?values.stream().map(Details::mapToDetailsValueResponse).toList():null)
+				.values(values!=null?values.stream().map(Details::mapToDetailsResponse).toList():null)
+				.build();
+	}
+	public DetailsNameResponse mapToDetailsNameResponseOutValues() {
+		return DetailsNameResponse.builder()
+				.id(id)
+				.name(detailsName)
 				.build();
 	}
 }

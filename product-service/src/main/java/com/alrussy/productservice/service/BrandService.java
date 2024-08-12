@@ -20,69 +20,63 @@ public class BrandService {
 
 	public List<BrandResponse> findAll() {
 
-		return brandRepository.findAll().stream().map(brand -> brand.mapToBrandResponse()).toList();
+		return brandRepository.findAll().stream().map(brand -> brand.mapToBrandResponseOutCategory()).toList();
 	}
 
 	public BrandResponse findById(Long id) {
 
-		return brandRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Brand  By ID = "+id+" Is Not Found")).mapToBrandResponse();
+		return brandRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Brand  By ID = " + id + " Is Not Found"))
+				.mapToBrandResponseOutCategory();
 	}
-	
+
 	@Transactional
 	public BrandResponse save(BrandRequest brand) {
-		if (brand != null && brand.getCategoryIds()!=null) {
+		if (brand != null && brand.getCategoryIds() != null) {
 			final Brand brandReturn = brandRepository.save(brand.mapToBrand());
-			
+
 			brand.getCategoryIds().stream().forEach(t -> brandRepository.saveWithCategories(t, brandReturn.getId()));
-			
-			return brandReturn.mapToBrandResponse();
-			
+
+			return brandReturn.mapToBrandResponseOutCategory();
+
 		}
-		
+
 		else
 			throw new IllegalArgumentException("CategoryIds[] must not empty... plaese add one category at least");
-		
-		
-		
-		
+
 	}
-	
-	
+
 	@Transactional
 	public void delete(Long id) {
-		 brandRepository.deleteBrand(id);
-		 brandRepository.deleteAllByIdInBatch(List.of(id));
+		brandRepository.deleteBrand(id);
+		brandRepository.deleteAllByIdInBatch(List.of(id));
 	}
-
 
 	@Transactional
-	public BrandResponse update(Long id,BrandRequest brand) {
-		
-		Brand brandFind= brandRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Brand  By ID = "+id+" Is Not Found "));
-		if(brand.getName()!=null) {
-		brandFind.setName(brand.getName());
+	public BrandResponse update(Long id, BrandRequest brand) {
+
+		Brand brandFind = brandRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Brand  By ID = " + id + " Is Not Found "));
+		if (brand.getName() != null) {
+			brandFind.setName(brand.getName());
 		}
-		if(brand.getImageUrl()!=null)
-		brandFind.setImageUrl(brand.getImageUrl());
-		
-		if(brand.getCategoryIds()!=null) {
-			brand.getCategoryIds().stream().forEach(t -> brandRepository.saveWithCategories(t,id));
+		if (brand.getImageUrl() != null)
+			brandFind.setImageUrl(brand.getImageUrl());
+
+		if (brand.getCategoryIds() != null) {
+			brand.getCategoryIds().stream().forEach(t -> brandRepository.saveWithCategories(t, id));
 		}
-		
-		return 		brandRepository.save(brandFind).mapToBrandResponse();
+
+		return brandRepository.save(brandFind).mapToBrandResponseWithCategory();
 	}
-	
-	
 
 	public List<BrandResponse> findByCategory(Long id) {
-		
-		return brandRepository.findByCategory(id).stream().map(Brand::mapToBrandResponse).toList();
+
+		return brandRepository.findByCategory(id).stream().map(Brand::mapToBrandResponseOutCategory).toList();
 	}
-	
-	
-	
-public List<BrandResponse> findByName(String name) {
-		
-		return brandRepository.findByName(name).stream().map(Brand::mapToBrandResponse).toList();
+
+	public List<BrandResponse> findByName(String name) {
+
+		return brandRepository.findByName(name).stream().map(Brand::mapToBrandResponseOutCategory).toList();
 	}
 }

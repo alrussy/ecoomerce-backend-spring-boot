@@ -1,6 +1,7 @@
 package com.alrussy.productservice.dto.details_dto;
 
 import com.alrussy.productservice.entity.DetailsName;
+import com.alrussy.productservice.entity.id.DetailsId;
 import com.alrussy.productservice.entity.Details;
 
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class DetailsRequest {
 	
 	public Details mapToDetailsValue() {
 		return Details.builder()
+				.id(DetailsId.builder().detailsNameId(detailsNameId).build())
 				.value(value)
 				.detailsName(DetailsName.builder().id(detailsNameId).build())
 				.build();

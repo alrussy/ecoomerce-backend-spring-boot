@@ -20,5 +20,10 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 	@Modifying
 	@Query(value = "delete from products p where p.brand_category_category_id = ?1",nativeQuery = true)
 	int deleteProduct(Long categoryId);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "INSERT INTO category_details_name (category_id, details_name_id) VALUES (?1, ?2)",nativeQuery = true)
+	int saveWithDetailsName(Long categoryId,Long detailsnameId);
 }
 

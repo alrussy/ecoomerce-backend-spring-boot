@@ -7,7 +7,6 @@ import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.product_dto.ProductResponse;
 import com.alrussy.productservice.entity.id.ProductId;
 import com.alrussy.productservice.entity.table.BrandCategory;
@@ -51,42 +50,29 @@ public class Product extends Audition {
 	private Boolean isFeature;
 	private String currency;
 	@Transient
-	Double priceAfterDiscount;	
-	
-
+	Double priceAfterDiscount;
 	@ElementCollection
 	private List<String> imageUrls;
-	
-	
-	@ManyToOne
-	@JoinColumnsOrFormulas(value = {
-	    @JoinColumnOrFormula(formula = @JoinFormula(value = "category_id")),
-	    @JoinColumnOrFormula(column = @JoinColumn(name= "department_id" ))
-	    
-	})
-	//@ManyToOne
-	//@JoinColumns(  {@JoinColumn(name= "department_id" ),@JoinColumn(name= "categoryId",insertable=false, updatable=false)})
-	private Department department;
-	@ManyToOne
-	@JoinColumnsOrFormulas(value = {
-	    @JoinColumnOrFormula(formula = @JoinFormula(value = "category_id")),
-	    @JoinColumnOrFormula(column = @JoinColumn(name= "brand_id" ))
-	    
-	})
 
-//	@ManyToOne
-	//@JoinColumns(  {@JoinColumn(name= "brand_id"),@JoinColumn(name= "categoryId",insertable=false, updatable=false)})
+	@ManyToOne
+	@JoinColumnsOrFormulas(value = { @JoinColumnOrFormula(formula = @JoinFormula(value = "category_id")),
+			@JoinColumnOrFormula(column = @JoinColumn(name = "department_id")) })
+	private Department department;
+
+	@ManyToOne
+	@JoinColumnsOrFormulas(value = { @JoinColumnOrFormula(formula = @JoinFormula(value = "category_id")),
+			@JoinColumnOrFormula(column = @JoinColumn(name = "brand_id")) })
 	private BrandCategory brandCategory;
+
 	@PostLoad
 	public void setPriceAfterDiscount() {
-		priceAfterDiscount = price-price*discount/100;
+		priceAfterDiscount = price - price * discount / 100;
 	}
-	
+
 	public ProductResponse mapToproductResponse() {
-		return new ProductResponse(
-				id.getProductId(), name, price,discount,priceAfterDiscount, isActivity,
-				brandCategory.getCategory().mapToCategoryResponse(),
-				department.mapToDepartmentResponse(),null);						
+		return new ProductResponse(id.getProductId(), name, price, discount, priceAfterDiscount, isActivity,
+				brandCategory.getCategory().mapToCategoryResponseOutDetailsName(), department.mapToDepartmentResponseOutCategory(),
+				brandCategory.getBrand().mapToBrandResponseOutCategory());
 
 	}
 

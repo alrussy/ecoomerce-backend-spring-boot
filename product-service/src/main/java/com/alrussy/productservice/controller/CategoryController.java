@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alrussy.productservice.dto.category_dto.CategoryRequest;
 import com.alrussy.productservice.dto.category_dto.CategoryResponse;
-import com.alrussy.productservice.entity.Category;
 import com.alrussy.productservice.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;

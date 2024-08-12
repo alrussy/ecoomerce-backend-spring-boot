@@ -7,12 +7,10 @@ import org.springframework.stereotype.Service;
 import com.alrussy.productservice.dto.product_dto.ProductFilter;
 import com.alrussy.productservice.dto.product_dto.ProductRequest;
 import com.alrussy.productservice.dto.product_dto.ProductResponse;
-import com.alrussy.productservice.entity.Brand;
-import com.alrussy.productservice.entity.Category;
 import com.alrussy.productservice.entity.Department;
 import com.alrussy.productservice.entity.Product;
 import com.alrussy.productservice.entity.id.BrandCategoryId;
-import com.alrussy.productservice.entity.id.DeparmentId;
+import com.alrussy.productservice.entity.id.DepartmentId;
 import com.alrussy.productservice.entity.table.BrandCategory;
 import com.alrussy.productservice.repository.ProductRepository;
 import com.alrussy.productservice.repository.specification.ProductSpecification;
@@ -40,7 +38,7 @@ public class ProductService {
 		return productRepository.save(productRequest.mapToprProduct()).mapToproductResponse();
 	}
 
-	public void update(Long id, ProductRequest productRequest) {
+	public ProductResponse update(Long id, ProductRequest productRequest) {
 
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("the record is not found"));
@@ -61,7 +59,7 @@ public class ProductService {
 			product.setIsFeature(productRequest.isFeature());
 		}
 		if (productRequest.departmentId() != null) {
-			product.setDepartment(Department.builder().id(DeparmentId.builder().departmentId(productRequest.departmentId()).categoryId(productRequest.categoryId()).build()).build());
+			product.setDepartment(Department.builder().id(DepartmentId.builder().departmentId(productRequest.departmentId()).categoryId(productRequest.categoryId()).build()).build());
 		}
 		if (productRequest.brandId() != null && productRequest.categoryId() != null) {
 			product.setBrandCategory(
@@ -70,6 +68,8 @@ public class ProductService {
 									.brandId(productRequest.brandId()).categoryId(productRequest.categoryId()).build())
 							.build());
 		}
+		
+		return product.mapToproductResponse();
 	}
 
 	public String delete(Long id) {

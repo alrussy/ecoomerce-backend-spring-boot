@@ -5,7 +5,7 @@ import com.alrussy.productservice.entity.Category;
 import com.alrussy.productservice.entity.Department;
 import com.alrussy.productservice.entity.Product;
 import com.alrussy.productservice.entity.id.BrandCategoryId;
-import com.alrussy.productservice.entity.id.DeparmentId;
+import com.alrussy.productservice.entity.id.DepartmentId;
 import com.alrussy.productservice.entity.table.BrandCategory;
 
 
@@ -19,7 +19,7 @@ public record ProductRequest(String name,Double price,Double discount,String cur
 			.build();
 	Brand brand=Brand.builder().id(brandId).
 			build();
-	Department department=Department.builder().id(DeparmentId.builder().departmentId(departmentId).categoryId(categoryId).build()).build() ;
+	Department department=Department.builder().id(DepartmentId.builder().departmentId(departmentId).categoryId(categoryId).build()).build() ;
 	BrandCategoryId brandCategoryId= BrandCategoryId.builder().brandId(brandId).categoryId(categoryId).build();
 		return Product.builder()
 				.name(name)

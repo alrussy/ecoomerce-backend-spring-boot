@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.category_dto.CategoryResponse;
 import com.alrussy.productservice.entity.table.CategoryDetailsName;
 
@@ -42,8 +41,12 @@ public class Category extends Audition {
 	private List<CategoryDetailsName> categoryDetailsNames;
 
 	
-	public CategoryResponse mapToCategoryResponse() {
+	public CategoryResponse mapToCategoryResponseOutDetailsName() {
 		return new CategoryResponse(id,name,isFeature,imageUrl);
 	}
-	
+
+
+	public CategoryResponse mapToCategoryResponseWithDetailsName() {
+		return new CategoryResponse(id,name,isFeature,imageUrl);
+	}
 }

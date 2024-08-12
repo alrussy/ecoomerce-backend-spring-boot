@@ -1,4 +1,4 @@
-package com.alrussy.productservice.dto;
+package com.alrussy.productservice.dto.department_dto;
 
 
 

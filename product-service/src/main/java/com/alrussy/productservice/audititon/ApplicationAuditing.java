@@ -15,7 +15,7 @@ public class ApplicationAuditing implements AuditorAware<String> {
 	
     @Override
     public Optional<String> getCurrentAuditor() {
-    	//String userDetails=httpServletRequest.getHeader("X-User-Details").toString();
+    //	String userDetails=httpServletRequest.getHeader("X-User-Details").toString();
         return Optional.ofNullable("user");
     }
 

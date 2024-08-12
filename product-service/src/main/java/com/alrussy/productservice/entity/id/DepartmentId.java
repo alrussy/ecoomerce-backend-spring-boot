@@ -19,7 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class DeparmentId implements Serializable{/**
+public class DepartmentId implements Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = -293757139257770506L;

@@ -1,4 +1,4 @@
-package com.alrussy.productservice.client;
+package com.alrussy.productservice.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-import com.alrussy.productservice.client.Inventory.InventoryClient;
+import com.alrussy.productservice.client.InventoryClient;
 
 @Configuration
 public class WebClientConfig {
@@ -17,14 +17,14 @@ public class WebClientConfig {
 	private LoadBalancedExchangeFilterFunction balancedExchangeFilterFunction;
 
 	@Bean
-	WebClient client(){
+	WebClient client() {
 		return WebClient.builder().baseUrl("http://INVENTORY-SERVICE").filter(balancedExchangeFilterFunction).build();
 	}
-	
+
 	@Bean
 	InventoryClient inventoryClient() {
-		HttpServiceProxyFactory factory= HttpServiceProxyFactory.builderFor(WebClientAdapter.create(client())).build();
-		
+		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.create(client())).build();
+
 		return factory.createClient(InventoryClient.class);
 	}
 }

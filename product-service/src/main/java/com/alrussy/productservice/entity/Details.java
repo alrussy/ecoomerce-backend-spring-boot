@@ -2,7 +2,6 @@ package com.alrussy.productservice.entity;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.details_dto.DetailsResponse;
 import com.alrussy.productservice.entity.id.DetailsId;
 
@@ -45,7 +44,7 @@ public class Details extends Audition {
 	private DetailsName detailsName;
 	
 	
-	public DetailsResponse mapToDetailsValueResponse(){
+	public DetailsResponse mapToDetailsResponse(){
 		return DetailsResponse.builder()
 				.id(id.getDetailsId())
 				.value(value)

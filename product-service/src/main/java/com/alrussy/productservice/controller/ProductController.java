@@ -18,12 +18,11 @@ import com.alrussy.productservice.dto.product_dto.ProductResponse;
 import com.alrussy.productservice.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-@Slf4j
+
 public class ProductController {
 
 	private final ProductService productService;
@@ -50,7 +49,7 @@ public class ProductController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<ProductResponse> update(Long id, @RequestBody ProductRequest product){
-		return ResponseEntity.ok(productService.save(product));
+		return ResponseEntity.ok(productService.update(id,product));
 	}
 	
 	@DeleteMapping("/{id}")

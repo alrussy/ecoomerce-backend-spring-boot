@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alrussy.productservice.dto.details_name_dto.DetailsNameRequest;
 import com.alrussy.productservice.dto.details_name_dto.DetailsNameResponse;
-import com.alrussy.productservice.entity.DetailsName;
 import com.alrussy.productservice.service.DetailsNameService;
 
 import lombok.RequiredArgsConstructor;

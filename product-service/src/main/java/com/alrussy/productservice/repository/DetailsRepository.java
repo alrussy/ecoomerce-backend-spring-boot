@@ -12,6 +12,8 @@ import com.alrussy.productservice.entity.id.DetailsId;
 public interface DetailsRepository extends JpaRepository<Details, DetailsId> {
 
 	List<DetailsResponse> findByDetailsNameId(Long id);
+	Boolean existsByValue(String value);
+
 	Optional<Details> findByValue(String value);
 	Optional<Details> findByIdDetailsId(Long id);
 	

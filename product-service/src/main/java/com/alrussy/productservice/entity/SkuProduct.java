@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.alrussy.productservice.audititon.Audition;
+import com.alrussy.productservice.dto.sku_product_dto.SkuProductResponse;
 import com.alrussy.productservice.entity.id.SkuProductId;
 import com.alrussy.productservice.entity.table.CategoryDetailsName;
 
@@ -53,6 +53,18 @@ public class SkuProduct extends Audition {
 	private List<CategoryDetailsName>  categoryDetailsNames;
 	
 	
+	public void addDetail(Details detail) {
+		details.add(detail);
+	}
+	public void removeDetail(Details detail) {
+		details.remove(detail);
+	}
+	
+	public SkuProductResponse mapToSkuProductResponse() {
+		return SkuProductResponse.builder().skuCode(skuCode)
+				.product(product.mapToproductResponse())
+				.details(details!=null?details.stream().map(Details::mapToDetailsResponse).toList():null).build();
+	}
 	
 
 }

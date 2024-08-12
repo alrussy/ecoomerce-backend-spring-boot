@@ -1,6 +1,9 @@
 package com.alrussy.productservice.dto.sku_product_dto;
 
-import com.alrussy.productservice.entity.DetailsName;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.alrussy.productservice.entity.Details;
 import com.alrussy.productservice.entity.Product;
 import com.alrussy.productservice.entity.SkuProduct;
 import com.alrussy.productservice.entity.id.CategoryDetailsNameId;
@@ -8,12 +11,8 @@ import com.alrussy.productservice.entity.id.DetailsId;
 import com.alrussy.productservice.entity.id.ProductId;
 import com.alrussy.productservice.entity.table.CategoryDetailsName;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.alrussy.productservice.entity.Category;
-import com.alrussy.productservice.entity.Details;
-
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,8 +26,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SkuProductRequest {
 	
+	
+	@NotNull
 	private Long productId;
+	
+	@NotNull
 	private Long categoryId;
+	@NotEmpty
+	@NotNull
 	private List<DetailsId> detailsIds;
 
 	

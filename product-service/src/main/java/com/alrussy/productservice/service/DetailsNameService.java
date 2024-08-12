@@ -20,24 +20,24 @@ public class DetailsNameService {
 
 	public List<DetailsNameResponse> findAll() {
 
-		return detailsNameRepository.findAll().stream().map(detailsName -> detailsName.mapToDetailsNameResponse()).toList();
+		return detailsNameRepository.findAll().stream().map(detailsName -> detailsName.mapToDetailsNameResponseOutValues()).toList();
 	}
 
 	public DetailsNameResponse findById(Long id) {
 
-		return detailsNameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("DetailsName  By ID = "+id+" Is Not Found")).mapToDetailsNameResponse();
+		return detailsNameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("DetailsName  By ID = "+id+" Is Not Found")).mapToDetailsNameResponseOutValues();
 	}
 	
 	@Transactional
 	public DetailsNameResponse save(DetailsNameRequest detailsName) {
-		return detailsNameRepository.save(detailsName.mapToDetailsName()).mapToDetailsNameResponse();
+		return detailsNameRepository.save(detailsName.mapToDetailsName()).mapToDetailsNameResponseOutValues();
 	}
 		
 		
 	
 	@Transactional
 	public void delete(Long id) {
-		 detailsNameRepository.deleteById(id);
+		 detailsNameRepository.deleteAllByIdInBatch(List.of(id));
 	}
 
 
@@ -48,7 +48,7 @@ public class DetailsNameService {
 		if(detailsName.getName()!=null) {
 		detailsNameFind.setDetailsName(detailsName.getName());
 		}
-		return 		detailsNameRepository.save(detailsNameFind).mapToDetailsNameResponse();
+		return 		detailsNameRepository.save(detailsNameFind).mapToDetailsNameResponseOutValues();
 	}
 	
 	

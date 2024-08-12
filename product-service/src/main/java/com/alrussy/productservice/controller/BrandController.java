@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alrussy.productservice.dto.brand_dto.BrandRequest;
 import com.alrussy.productservice.dto.brand_dto.BrandResponse;
-import com.alrussy.productservice.entity.Brand;
 import com.alrussy.productservice.service.BrandService;
 
 import jakarta.validation.Valid;

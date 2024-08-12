@@ -40,11 +40,15 @@ public class CategoryDetailsName {
 	@EmbeddedId
 	private CategoryDetailsNameId id;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name = "category_id",updatable = false,insertable = false )
 	@MapsId("categoryId")
 	private Category category;
 	
+	@ManyToOne
+	@JoinColumn(name = "details_name_id",updatable = false,insertable = false )
+	@MapsId("detailsnameId")
+	private DetailsName detailsName;
 	
 	
 

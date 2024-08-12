@@ -19,39 +19,39 @@ import com.alrussy.productservice.service.DetailsService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/products/detailsValues")
+@RequestMapping("/api/products/details")
 @RequiredArgsConstructor
-public class DetailsValueController {
+public class DetailsController {
 
-	private final DetailsService detailsValueService;
+	private final DetailsService detailsService;
 	
 	
 	@GetMapping
 	public ResponseEntity<List<DetailsResponse>> findAll(){
-		return ResponseEntity.ok(detailsValueService.findAll());
+		return ResponseEntity.ok(detailsService.findAll());
 	}
 	
 	@GetMapping("/details-name/{id}")
 	public ResponseEntity<List<DetailsResponse>> findByDetailsName(@PathVariable Long id){
-		return ResponseEntity.ok(detailsValueService.findByDetailsName(id));
+		return ResponseEntity.ok(detailsService.findByDetailsName(id));
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<DetailsResponse> findById(@PathVariable Long id){
-		return ResponseEntity.ok(detailsValueService.findById(id));
+		return ResponseEntity.ok(detailsService.findById(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<DetailsResponse> save(@RequestBody DetailsRequest detailsValue){
-		return ResponseEntity.ok(detailsValueService.save(detailsValue));
+	public ResponseEntity<DetailsResponse> save(@RequestBody DetailsRequest request){
+		return ResponseEntity.ok(detailsService.save(request));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<DetailsResponse> update(@PathVariable Long id ,@RequestBody DetailsRequest detailsValue){
-		return ResponseEntity.ok(detailsValueService.update(id,detailsValue));
+	public ResponseEntity<DetailsResponse> update(@PathVariable Long id ,@RequestBody DetailsRequest request){
+		return ResponseEntity.ok(detailsService.update(id,request));
 	}
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Long id){
-		detailsValueService.delete(id);
+		detailsService.delete(id);
 	return ResponseEntity.ok("delete By "+id+" is successfuly");
 	}
 	

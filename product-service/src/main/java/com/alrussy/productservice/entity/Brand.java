@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.alrussy.productservice.audititon.Audition;
 import com.alrussy.productservice.dto.brand_dto.BrandResponse;
 import com.alrussy.productservice.entity.table.BrandCategory;
 
@@ -45,9 +44,9 @@ public class Brand extends Audition{
 	private List<BrandCategory> brandCategory;
 	
 
-	public BrandResponse mapToBrandResponse() {
+	public BrandResponse mapToBrandResponseWithCategory() {
 		return new BrandResponse(id,name,imageUrl,
-				brandCategory.stream().map(category->category.getCategory().mapToCategoryResponse()).toList());
+				brandCategory.stream().map(category->category.getCategory().mapToCategoryResponseOutDetailsName()).toList());
 				
 	}
 
