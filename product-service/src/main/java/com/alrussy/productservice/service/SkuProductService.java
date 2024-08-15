@@ -42,8 +42,12 @@ public class SkuProductService {
 
 	@Transactional
 	public SkuProductResponse save(SkuProductRequest skuProductRequest) {
+		
+		
 		List<SkuProductResponse> skuProductResponses = findByProductId(skuProductRequest.getProductId()).stream()
 				.map(SkuProduct::mapToSkuProductResponseWithPrduct).toList();
+		
+		
 		List<List<Long>> ids = skuProductResponses.stream()
 				.map(sku -> sku.getDetails().stream().map(d -> d.getId()).toList()).toList();
 
@@ -53,13 +57,18 @@ public class SkuProductService {
 		)
 			throw new IllegalArgumentException("all details are exists with Product");
 
-		if (skuProductResponses.stream().findFirst().get().getProduct().category().detailsName()
+		if(skuProductResponses!=null & !skuProductResponses.isEmpty()) {
+		if (
+				skuProductResponses.stream().findFirst().get().getProduct().category().detailsName()
 				.size() != skuProductRequest.getDetailsIds().size()) {
 			throw new IllegalArgumentException("must add all details");
 		}
+		}
+		
+		
 		skuProductRepository.save(skuProductRequest.mapToSkuProduct());
-
-		return new SkuProductResponse();
+		
+		return  new SkuProductResponse();
 
 	}
 
@@ -91,8 +100,9 @@ public class SkuProductService {
 	}
 
 	public SkuProductResponse testSave() {
-		SkuProductRequest request = SkuProductRequest.builder().categoryId(605L).productId(752L)
-				.detailsIds(List.of(DetailsId.builder().detailsId(3L).detailsNameId(2L).build(),
+		SkuProductRequest request = SkuProductRequest.builder().categoryId(602L).productId(852L)
+				.detailsIds(List.of(
+						DetailsId.builder().detailsId(3L).detailsNameId(2L).build(),
 						DetailsId.builder().detailsId(1L).detailsNameId(1L).build()))
 				.build();
 		return save(request);

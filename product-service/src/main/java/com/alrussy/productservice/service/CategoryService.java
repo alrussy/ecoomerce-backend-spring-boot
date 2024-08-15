@@ -19,7 +19,7 @@ public class CategoryService {
 	private final CategoryRepository categoryRepository;
 
 	public List<CategoryResponse> findAll() {
-		return categoryRepository.findAll().stream().map(Category::mapToCategoryResponseOutDetailsNameAndBrand).toList();
+		return categoryRepository.findAll().stream().map(Category::mapToCategoryResponseWithDetailsNameAndBrand).toList();
 	} 
 
 	public CategoryResponse findById(Long id) {

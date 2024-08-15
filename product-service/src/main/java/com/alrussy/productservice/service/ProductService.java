@@ -38,10 +38,7 @@ public class ProductService {
 
 	}
 	public ProductResponse save(ProductRequest productRequest) {
-		if(productRepository.existsByName(productRequest.name())) {
-			throw new IllegalArgumentException("the name of product \""+productRequest.name()+"\" is exist");
-			
-		}
+
 		return productRepository.save(productRequest.mapToprProduct()).mapToproductResponseWithCategoryBrandAndDepartment();
 	}
 	
@@ -49,12 +46,10 @@ public class ProductService {
 		ProductResponse  response=null;
 		Product product = productRepository.findByIdProductId(id)
 				.orElseThrow(() -> new IllegalArgumentException("the record is not found"));
-
 		
-		if(productRequest.categoryId() == product.getId().getCategoryId()) {
 			
 		
-			if (productRequest.name() != null || !productRequest.name().isEmpty()) {
+			if (productRequest.name() != null && !productRequest.name().isEmpty()) {
 				product.setName(productRequest.name());
 			}
 			if (productRequest.price() != null) {
@@ -64,7 +59,8 @@ public class ProductService {
 				product.setDiscount(productRequest.discount());
 				;
 			}
-			if (productRequest.currency() != null || !productRequest.currency().isEmpty()) {
+			
+			if (productRequest.currency() != null && !productRequest.currency().isEmpty()) {
 				product.setCurrency(productRequest.currency());
 			}
 			if (productRequest.isFeature() != null) {
@@ -84,13 +80,9 @@ public class ProductService {
 								.build());
 			}
 			
-			response= productRepository.save(product).mapToproductResponseWithCategoryBrandAndDepartment();
-		}
+			response= productRepository.save(product).mapToproductResponseOutCategoryBrandAndDepartment();
+	
 			
-		else {
-			delete(id);
-			response=save(productRequest);
-		}
 		
 		return response;
 	}

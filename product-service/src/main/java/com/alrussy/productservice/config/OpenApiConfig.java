@@ -14,6 +14,8 @@ public class OpenApiConfig {
 	private static final String appDescription= "api product_service";
 	
 	private static final String appversion= "1.0";
+	
+	
 	@Bean
 	OpenAPI openAPI() {
 

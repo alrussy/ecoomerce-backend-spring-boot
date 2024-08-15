@@ -3,6 +3,8 @@ package com.alrussy.productservice.entity;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.alrussy.productservice.dto.department_dto.DepartmentResponse;
 import com.alrussy.productservice.entity.id.DepartmentId;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -29,7 +31,7 @@ public class Department extends Audition {
 	@EmbeddedId
 	private DepartmentId id;
 	private String name;
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name = "category_id", insertable = false, updatable = false)
 	@MapsId("categoryId")
 	private Category category;

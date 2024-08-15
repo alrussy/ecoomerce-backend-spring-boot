@@ -24,7 +24,7 @@ public class DepartmentService {
 	public List<DepartmentResponse> findAll() {
 
 		return departmentRepository.findAll().stream()
-				.map(department -> department.mapToDepartmentResponseOutCategory()).toList();
+				.map(department -> department.mapToDepartmentResponseWithCategory()).toList();
 	}
 
 	public DepartmentResponse findById(DepartmentId id) {

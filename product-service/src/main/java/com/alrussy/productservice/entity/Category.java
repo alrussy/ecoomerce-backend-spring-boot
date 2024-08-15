@@ -39,7 +39,7 @@ public class Category extends Audition {
 	private String imageUrl;
 	private Boolean isFeature;
 
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = BrandCategory.class)
+	@OneToMany(mappedBy = "category", targetEntity = BrandCategory.class)
 	private List<BrandCategory> brandCategory;
 
 	@OneToMany(mappedBy = "category", targetEntity = CategoryDetailsName.class)
