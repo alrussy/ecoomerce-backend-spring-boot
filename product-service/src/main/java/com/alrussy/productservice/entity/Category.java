@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.alrussy.productservice.dto.category_dto.CategoryResponse;
+import com.alrussy.productservice.entity.table.BrandCategory;
 import com.alrussy.productservice.entity.table.CategoryDetailsName;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -35,18 +37,39 @@ public class Category extends Audition {
 	private Long id;
 	private String name;
 	private String imageUrl;
-	 private Boolean isFeature;
-	
-	@OneToMany(mappedBy = "category")
+	private Boolean isFeature;
+
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = BrandCategory.class)
+	private List<BrandCategory> brandCategory;
+
+	@OneToMany(mappedBy = "category", targetEntity = CategoryDetailsName.class)
 	private List<CategoryDetailsName> categoryDetailsNames;
 
-	
-	public CategoryResponse mapToCategoryResponseOutDetailsName() {
-		return new CategoryResponse(id,name,isFeature,imageUrl);
+	public CategoryResponse mapToCategoryResponseWithBrandOutDetailsName() {
+
+		return new CategoryResponse(id, name, isFeature, imageUrl,
+				getBrandCategory() != null
+						? getBrandCategory().stream().map(bc -> bc.getBrand().mapToBrandResponseOutCategory()).toList()
+						: null,
+				null);
 	}
 
+	public CategoryResponse mapToCategoryResponseOutDetailsNameAndBrand() {
 
-	public CategoryResponse mapToCategoryResponseWithDetailsName() {
-		return new CategoryResponse(id,name,isFeature,imageUrl);
+		return new CategoryResponse(id, name, isFeature, imageUrl,null,null);
+	}
+
+	public CategoryResponse mapToCategoryResponseWithDetailsNameOutBrand() {
+		return new CategoryResponse(id, name, isFeature, imageUrl, null, getCategoryDetailsNames().stream()
+				.map(cd -> cd.getDetailsName().mapToDetailsNameResponseOutValues()).toList());
+	}
+
+	public CategoryResponse mapToCategoryResponseWithDetailsNameAndBrand() {
+		return new CategoryResponse(id, name, isFeature, imageUrl,
+				getBrandCategory() != null
+						? getBrandCategory().stream().map(bc -> bc.getBrand().mapToBrandResponseOutCategory()).toList()
+						: null,
+				getCategoryDetailsNames().stream().map(cd -> cd.getDetailsName().mapToDetailsNameResponseOutValues())
+						.toList());
 	}
 }

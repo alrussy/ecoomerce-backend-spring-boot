@@ -35,7 +35,6 @@ public class DetailsName extends Audition{
 	private Long id;
 	@NotBlank
 	private String detailsName;
-	
 	@OneToMany(mappedBy = "detailsName",orphanRemoval = true)
 	private List<Details> values;
 	

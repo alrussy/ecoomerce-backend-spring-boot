@@ -39,14 +39,13 @@ public class Brand extends Audition{
 	private Long id;
 	private String name;
 	private String imageUrl;
-
 	@OneToMany(mappedBy = "brand", targetEntity = BrandCategory.class)
 	private List<BrandCategory> brandCategory;
 	
 
 	public BrandResponse mapToBrandResponseWithCategory() {
 		return new BrandResponse(id,name,imageUrl,
-				brandCategory.stream().map(category->category.getCategory().mapToCategoryResponseOutDetailsName()).toList());
+				brandCategory.stream().map(category->category.getCategory().mapToCategoryResponseOutDetailsNameAndBrand()).toList());
 				
 	}
 

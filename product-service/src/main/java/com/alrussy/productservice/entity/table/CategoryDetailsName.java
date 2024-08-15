@@ -47,7 +47,7 @@ public class CategoryDetailsName {
 	
 	@ManyToOne
 	@JoinColumn(name = "details_name_id",updatable = false,insertable = false )
-	@MapsId("detailsnameId")
+	@MapsId("detailsNameId")
 	private DetailsName detailsName;
 	
 	

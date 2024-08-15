@@ -22,25 +22,18 @@ public class DetailsNameService {
 
 		return detailsNameRepository.findAll().stream().map(detailsName -> detailsName.mapToDetailsNameResponseOutValues()).toList();
 	}
-
 	public DetailsNameResponse findById(Long id) {
 
 		return detailsNameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("DetailsName  By ID = "+id+" Is Not Found")).mapToDetailsNameResponseOutValues();
 	}
-	
 	@Transactional
 	public DetailsNameResponse save(DetailsNameRequest detailsName) {
 		return detailsNameRepository.save(detailsName.mapToDetailsName()).mapToDetailsNameResponseOutValues();
 	}
-		
-		
-	
 	@Transactional
 	public void delete(Long id) {
 		 detailsNameRepository.deleteAllByIdInBatch(List.of(id));
 	}
-
-
 	@Transactional
 	public DetailsNameResponse update(Long id,DetailsNameRequest detailsName) {
 		
@@ -49,6 +42,10 @@ public class DetailsNameService {
 		detailsNameFind.setDetailsName(detailsName.getName());
 		}
 		return 		detailsNameRepository.save(detailsNameFind).mapToDetailsNameResponseOutValues();
+	}
+
+	public Long count() {
+		return detailsNameRepository.count();
 	}
 	
 	

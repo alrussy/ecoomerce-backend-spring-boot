@@ -30,19 +30,24 @@ public class BrandService {
 				.mapToBrandResponseOutCategory();
 	}
 
+	public List<BrandResponse> findByCategory(Long id) {
+
+		return brandRepository.findByCategory(id).stream().map(Brand::mapToBrandResponseOutCategory).toList();
+	}
+
+	public List<BrandResponse> findByName(String name) {
+
+		return brandRepository.findByName(name).stream().map(Brand::mapToBrandResponseOutCategory).toList();
+	}
+
 	@Transactional
 	public BrandResponse save(BrandRequest brand) {
-		if (brand != null && brand.getCategoryIds() != null) {
-			final Brand brandReturn = brandRepository.save(brand.mapToBrand());
+		final Brand brandReturn = brandRepository.save(brand.mapToBrand());
 
+		if (brand.getCategoryIds() != null && !brand.getCategoryIds().isEmpty())
 			brand.getCategoryIds().stream().forEach(t -> brandRepository.saveWithCategories(t, brandReturn.getId()));
 
-			return brandReturn.mapToBrandResponseOutCategory();
-
-		}
-
-		else
-			throw new IllegalArgumentException("CategoryIds[] must not empty... plaese add one category at least");
+		return brandReturn.mapToBrandResponseOutCategory();
 
 	}
 
@@ -67,16 +72,10 @@ public class BrandService {
 			brand.getCategoryIds().stream().forEach(t -> brandRepository.saveWithCategories(t, id));
 		}
 
-		return brandRepository.save(brandFind).mapToBrandResponseWithCategory();
+		return brandRepository.save(brandFind).mapToBrandResponseOutCategory();
 	}
 
-	public List<BrandResponse> findByCategory(Long id) {
-
-		return brandRepository.findByCategory(id).stream().map(Brand::mapToBrandResponseOutCategory).toList();
-	}
-
-	public List<BrandResponse> findByName(String name) {
-
-		return brandRepository.findByName(name).stream().map(Brand::mapToBrandResponseOutCategory).toList();
+	public Long count() {
+		return brandRepository.count();
 	}
 }

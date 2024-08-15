@@ -47,7 +47,6 @@ public class BrandController {
 	public ResponseEntity<BrandResponse> save(@RequestBody @Valid BrandRequest brand){
 		return ResponseEntity.ok(brandService.save(brand));
 	}
-	
 	@PutMapping("/{id}")
 	public ResponseEntity<BrandResponse> update(@PathVariable Long id ,@RequestBody BrandRequest brand){
 		return ResponseEntity.ok(brandService.update(id,brand));

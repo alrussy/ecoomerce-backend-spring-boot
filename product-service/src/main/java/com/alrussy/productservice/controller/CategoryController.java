@@ -24,30 +24,32 @@ import lombok.RequiredArgsConstructor;
 public class CategoryController {
 
 	private final CategoryService categoryService;
-	
-	
+
 	@GetMapping
-	public ResponseEntity<List<CategoryResponse>> findAll(){
+	public ResponseEntity<List<CategoryResponse>> findAll() {
 		return ResponseEntity.ok(categoryService.findAll());
 	}
+
 	@GetMapping("/{id}")
-	public ResponseEntity<CategoryResponse> findById(@PathVariable Long id){
+	public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.findById(id));
 	}
+
 	@PostMapping
-	public ResponseEntity<CategoryResponse> save(@RequestBody CategoryRequest category){
+	public ResponseEntity<CategoryResponse> save(@RequestBody CategoryRequest category) {
 		return ResponseEntity.ok(categoryService.save(category));
 	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<CategoryResponse> update(@PathVariable Long id ,@RequestBody CategoryRequest category){
-		return ResponseEntity.ok(categoryService.update(id,category));
+	public ResponseEntity<CategoryResponse> update(@PathVariable Long id, @RequestBody CategoryRequest category) {
+		return ResponseEntity.ok(categoryService.update(id, category));
 	}
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id){
+	public ResponseEntity<String> delete(@PathVariable Long id) {
 		categoryService.delete(id);
-	return ResponseEntity.ok("delete By "+id+" is successfuly");
+		return ResponseEntity.ok("delete By " + id + " is successfuly");
 	}
-	
-	
+
+
 }

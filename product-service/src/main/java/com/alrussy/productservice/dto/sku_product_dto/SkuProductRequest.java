@@ -3,6 +3,7 @@ package com.alrussy.productservice.dto.sku_product_dto;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.alrussy.productservice.entity.Details;
 import com.alrussy.productservice.entity.Product;
 import com.alrussy.productservice.entity.SkuProduct;
@@ -25,37 +26,31 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SkuProductRequest {
-	
-	
+
 	@NotNull
 	private Long productId;
-	
 	@NotNull
 	private Long categoryId;
 	@NotEmpty
 	@NotNull
 	private List<DetailsId> detailsIds;
 
-	
 	public SkuProduct mapToSkuProduct() {
+
+		List<CategoryDetailsName> categoryDetailsNames = new ArrayList<>();
+		List<Details> details = new ArrayList<>();
+		if (detailsIds != null)
+			detailsIds.stream().forEach(id -> {
+				details.add(Details.builder().id(id).build());
+				categoryDetailsNames.add(CategoryDetailsName.builder().id(CategoryDetailsNameId.builder()
+						.categoryId(categoryId).detailsNameId(id.getDetailsNameId()).build()).build());
+
+			});
 		
-		List<CategoryDetailsName> categoryDetailsNames=new ArrayList<>();
-		List<Details> details=new ArrayList<>();
-		
-		if(detailsIds!=null)
-		detailsIds.stream().forEach(
-				id->{
-					details.add(
-					Details.builder().id(id).build());
-					categoryDetailsNames.add(CategoryDetailsName.builder().
-							id(CategoryDetailsNameId.builder().detailsnameId(categoryId).detailsnameId(id.getDetailsNameId()).build()).build());
-				
-				
-				});
-		return SkuProduct.builder()
-				.product(Product.builder().id(ProductId.builder().categoryId(categoryId).productId(productId).build()).build())
-				.details( details)
-				.categoryDetailsNames(categoryDetailsNames)
-				.build();
-		}
+		return SkuProduct
+				.builder().product(Product.builder()
+						
+						.id(ProductId.builder().categoryId(categoryId).productId(productId).build()).build())
+				.details(details).categoryDetailsNames(categoryDetailsNames).build();
+	}
 }

@@ -19,31 +19,39 @@ public class CategoryService {
 	private final CategoryRepository categoryRepository;
 
 	public List<CategoryResponse> findAll() {
-
-		return categoryRepository.findAll().stream().map(Category::mapToCategoryResponseOutDetailsName).toList();
-	}
+		return categoryRepository.findAll().stream().map(Category::mapToCategoryResponseOutDetailsNameAndBrand).toList();
+	} 
 
 	public CategoryResponse findById(Long id) {
-
 		return categoryRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Category  By ID = " + id + " Is Not Found"))
-				.mapToCategoryResponseOutDetailsName();
+				.mapToCategoryResponseWithDetailsNameAndBrand();
 	}
 
 	public List<CategoryResponse> findByName(String name) {
 
-		return categoryRepository.findByName(name).stream().map(Category::mapToCategoryResponseOutDetailsName).toList();
+		return categoryRepository.findByName(name).stream().map(Category::mapToCategoryResponseWithDetailsNameAndBrand).toList();
 	}
 
 	@Transactional
 	public CategoryResponse save(CategoryRequest category) {
-		Category categorySave= categoryRepository.save(category.mapToCategory());
-		category.getDetailsNameIds().stream().forEach(t -> categoryRepository.saveWithDetailsName(t, categorySave.getId()));
-		return categorySave.mapToCategoryResponseOutDetailsName();
+
+		Category categorySave = categoryRepository.save(category.mapToCategory());
+
+		category.getBrandIds().stream()
+		.forEach(t -> categoryRepository.saveWithBrands(categorySave.getId(),t));
+		
+		category.getDetailsNameIds().stream()
+				.forEach(t -> categoryRepository.saveWithDetailsName(categorySave.getId(),t));
+		return categorySave.mapToCategoryResponseWithDetailsNameAndBrand();
 	}
 
-	public void delete(Long id) {
+	@Transactional
+	public String delete(Long id) {
+		categoryRepository.deleteBrandCategory(id);
+		categoryRepository.deleteCategorydetailsName(id);
 		categoryRepository.deleteAllByIdInBatch(List.of(id));
+		return "delete By id :"+id+" is success";
 	}
 
 	@Transactional
@@ -56,11 +64,11 @@ public class CategoryService {
 		}
 		if (categoryRequest.getImageUrl() != null)
 			categoryFind.setImageUrl(categoryRequest.getImageUrl());
-		if(categoryRequest.getDetailsNameIds()!=null && !categoryRequest.getDetailsNameIds().isEmpty()) {
-			categoryRequest.getDetailsNameIds().stream().forEach(t -> categoryRepository.saveWithDetailsName(id,t));
-	
+		if (categoryRequest.getDetailsNameIds() != null && !categoryRequest.getDetailsNameIds().isEmpty()) {
+			categoryRequest.getDetailsNameIds().stream().forEach(t -> categoryRepository.saveWithDetailsName(id, t));
 		}
 
-		return categoryRepository.save(categoryFind).mapToCategoryResponseOutDetailsName();
+		return categoryRepository.save(categoryFind).mapToCategoryResponseWithDetailsNameAndBrand();
 	}
+
 }

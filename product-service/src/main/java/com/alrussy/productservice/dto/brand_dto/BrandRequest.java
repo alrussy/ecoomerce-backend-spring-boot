@@ -24,20 +24,11 @@ public class BrandRequest {
 
 	private String name;
 	private String imageUrl;
-	@NotEmpty
-	@NotNull
 	private List<Long> categoryIds;
 
 	public Brand mapToBrand() {
 		return Brand.builder().name(name).imageUrl(imageUrl)
-				.brandCategory(categoryIds != null
-						? categoryIds.stream()
-								.map(t -> BrandCategory.builder().brandCategoryId(BrandCategoryId.builder().categoryId(t).build())
-												.category(Category.builder().id(t).build()).build())
-										
-								.toList()
-						: null)
-				.build();
+	.build();
 
 	}
 }

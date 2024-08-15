@@ -25,6 +25,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 	@Modifying
 	@Query(value = "delete from brand_category b where b.brand_id = ?1",nativeQuery = true)
 	int deleteBrand(Long brandId);
+
 	@Transactional
 	@Modifying
 	@Query(value = "delete from products p where p.brand_category_category_id = ?1",nativeQuery = true)

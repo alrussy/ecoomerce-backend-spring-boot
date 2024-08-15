@@ -15,13 +15,9 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -50,30 +46,157 @@ public class Product extends Audition {
 	private Boolean isFeature;
 	private String currency;
 	@Transient
-	Double priceAfterDiscount;
+	private Double priceAfterDiscount;	
 	@ElementCollection
 	private List<String> imageUrls;
-
+	private Long brandId;
+	
+	
 	@ManyToOne
-	@JoinColumnsOrFormulas(value = { @JoinColumnOrFormula(formula = @JoinFormula(value = "category_id")),
-			@JoinColumnOrFormula(column = @JoinColumn(name = "department_id")) })
+	@JoinColumn(name = "brandId",insertable = false,updatable = false)
+private Brand brand;
+	@ManyToOne
+	@JoinColumnsOrFormulas(
+			value = {
+					@JoinColumnOrFormula(formula = @JoinFormula(value = "category_id")),
+					@JoinColumnOrFormula(column = @JoinColumn(name = "department_id")) 
+					}
+			)
 	private Department department;
-
 	@ManyToOne
-	@JoinColumnsOrFormulas(value = { @JoinColumnOrFormula(formula = @JoinFormula(value = "category_id")),
-			@JoinColumnOrFormula(column = @JoinColumn(name = "brand_id")) })
+	@JoinColumnsOrFormulas(
+			value = { 
+					@JoinColumnOrFormula(formula = @JoinFormula(value = "category_id")),
+					@JoinColumnOrFormula(formula = @JoinFormula(value = "brand_id"))
+					}
+			)
 	private BrandCategory brandCategory;
 
+	
 	@PostLoad
 	public void setPriceAfterDiscount() {
 		priceAfterDiscount = price - price * discount / 100;
 	}
+	public ProductResponse mapToproductResponseWithCategoryBrandAndDepartment() {
+		return new ProductResponse(
+				id.getProductId(), 
+				name, 
+				price,
+				discount, 
+				priceAfterDiscount,
+				isActivity,
+				isFeature,
+				imageUrls,
+				department.getCategory().mapToCategoryResponseOutDetailsNameAndBrand(),//category
+				department.mapToDepartmentResponseOutCategory(),//department
+				brand!=null?brand.mapToBrandResponseOutCategory():brandCategory.getBrand().mapToBrandResponseOutCategory()//brand
+				);
+		}
+	public ProductResponse mapToproductResponseOutCategory() {
+		return new ProductResponse(
+				id.getProductId(), 
+				name, 
+				price,
+				discount, 
+				priceAfterDiscount,
+				isActivity,
+				isFeature,
+				imageUrls,
+				null,//category
+				department.mapToDepartmentResponseOutCategory(),//department
+				brandCategory.getBrand().mapToBrandResponseOutCategory()//brand
+				);
+		}
+	public ProductResponse mapToproductResponseOutCategoryBrandAndDepartment() {
+		return new ProductResponse(
+				id.getProductId(), 
+				name, 
+				price,
+				discount, 
+				priceAfterDiscount,
+				isActivity,
+				isFeature,
+				imageUrls,
+				null,//category
+				null,//department
+				null//brand
+				);
+		}
+	public ProductResponse mapToproductResponseOutBrand() {
+		return new ProductResponse(
+				id.getProductId(), 
+				name, 
+				price,
+				discount, 
+				priceAfterDiscount,
+				isActivity,
+				isFeature,
+				imageUrls,
+				department.getCategory().mapToCategoryResponseOutDetailsNameAndBrand(),//category
+				department.mapToDepartmentResponseOutCategory(),//department
+				null//brand
+				);
+		}
+	public ProductResponse mapToproductResponseOutDepartment() {
+		return new ProductResponse(
+				id.getProductId(), 
+				name, 
+				price,
+				discount, 
+				priceAfterDiscount,
+				isActivity,
+				isFeature,
+				imageUrls,
+				department.getCategory().mapToCategoryResponseOutDetailsNameAndBrand(),//category
+				null,//department
+				brandCategory.getBrand().mapToBrandResponseOutCategory()//brand
+				);
+		}
+	public ProductResponse mapToproductResponseWithDepartment() {
+		return new ProductResponse(
+				id.getProductId(), 
+				name, 
+				price,
+				discount, 
+				priceAfterDiscount,
+				isActivity,
+				isFeature,
+				imageUrls,
+				null,//category
+				department.mapToDepartmentResponseOutCategory(),//department
+				null//brand
+				);
+		}
+	public ProductResponse mapToproductResponseWithBrand() {
+		return new ProductResponse(
+				id.getProductId(), 
+				name, 
+				price,
+				discount, 
+				priceAfterDiscount,
+				isActivity,
+				isFeature,
+				imageUrls,
+				null,//category
+				null,//department
+				brandCategory.getBrand().mapToBrandResponseOutCategory()//brand
+				);
+		}
+	public ProductResponse mapToproductResponseWithCategory() {
+		return new ProductResponse(
+				id.getProductId(), 
+				name, 
+				price,
+				discount, 
+				priceAfterDiscount,
+				isActivity,
+				isFeature,
+				imageUrls,
+				department.getCategory().mapToCategoryResponseWithDetailsNameOutBrand(),//category
+				null,//department
+				null//brand
+				);
+		}
 
-	public ProductResponse mapToproductResponse() {
-		return new ProductResponse(id.getProductId(), name, price, discount, priceAfterDiscount, isActivity,
-				brandCategory.getCategory().mapToCategoryResponseOutDetailsName(), department.mapToDepartmentResponseOutCategory(),
-				brandCategory.getBrand().mapToBrandResponseOutCategory());
-
-	}
 
 }

@@ -25,7 +25,6 @@ public class DetailsService {
 	}
 
 	public DetailsResponse findById(Long id) {
-
 		return detailsRepository.findByIdDetailsId(id)
 				.orElseThrow(() -> new IllegalArgumentException("DetailsValue  By ID = " + id + " Is Not Found"))
 				.mapToDetailsResponse();
@@ -66,7 +65,6 @@ public class DetailsService {
 	}
 
 	public List<DetailsResponse> findByDetailsName(Long id) {
-		// TODO Auto-generated method stub
 		return detailsRepository.findByDetailsNameId(id);
 	}
 

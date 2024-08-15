@@ -27,7 +27,7 @@ public class CategoryDetailsNameId implements Serializable{/**
 	 */
 	private static final long serialVersionUID = -293757139257770506L;
 	
-	private Long detailsnameId;
+	private Long detailsNameId;
 	
 	private Long categoryId;
 	

@@ -35,10 +35,7 @@ public class Details extends Audition {
 	
 	@EmbeddedId
 	private DetailsId id;
-	
-	
-	private String value;
-	
+	private String value;	
 	@ManyToOne
 	@MapsId("detailsNameId")
 	private DetailsName detailsName;

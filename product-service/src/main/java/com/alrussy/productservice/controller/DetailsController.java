@@ -35,6 +35,7 @@ public class DetailsController {
 	public ResponseEntity<List<DetailsResponse>> findByDetailsName(@PathVariable Long id){
 		return ResponseEntity.ok(detailsService.findByDetailsName(id));
 	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<DetailsResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok(detailsService.findById(id));
@@ -49,6 +50,7 @@ public class DetailsController {
 	public ResponseEntity<DetailsResponse> update(@PathVariable Long id ,@RequestBody DetailsRequest request){
 		return ResponseEntity.ok(detailsService.update(id,request));
 	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Long id){
 		detailsService.delete(id);

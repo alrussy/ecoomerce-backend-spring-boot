@@ -17,6 +17,7 @@ import com.alrussy.productservice.dto.product_dto.ProductRequest;
 import com.alrussy.productservice.dto.product_dto.ProductResponse;
 import com.alrussy.productservice.service.ProductService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,8 +27,6 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService productService;
-	
-	
 	
 	@GetMapping
 	public ResponseEntity<List<ProductResponse>> findAll(){
@@ -39,23 +38,20 @@ public class ProductController {
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<ProductResponse> findById(@PathVariable Long id){
-		return ResponseEntity.ok(productService.findById(id));
+		return ResponseEntity.ok(productService.findByProductId(id));
 	}
-
 	@PostMapping
-	public ResponseEntity<ProductResponse> save(@RequestBody ProductRequest product){
+	public ResponseEntity<ProductResponse> save(@RequestBody @Valid ProductRequest product){
 		return ResponseEntity.ok(productService.save(product));
 	}
-	
 	@PutMapping("/{id}")
-	public ResponseEntity<ProductResponse> update(Long id, @RequestBody ProductRequest product){
+	public ResponseEntity<ProductResponse> update(Long id, @RequestBody @Valid ProductRequest product){
 		return ResponseEntity.ok(productService.update(id,product));
 	}
-	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> postMethodName(@PathVariable Long id) {
+	public ResponseEntity<String> delete(@PathVariable Long id) {
 		return ResponseEntity.ok(productService.delete(id));
 	}
 	
-	
+
 }
