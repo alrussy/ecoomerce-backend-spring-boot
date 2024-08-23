@@ -90,7 +90,7 @@ public class Product extends Audition {
 		return new ProductResponse(id.getProductId(), name, price, discount, priceAfterDiscount, isActivity, isFeature,
 				imageUrls, null, // category
 				department.mapToDepartmentResponseOutCategory(), // department
-				brandCategory.getBrand().mapToBrandResponseOutCategory()// brand
+				brand.mapToBrandResponseOutCategory()// brand
 		);
 	}
 
@@ -114,7 +114,7 @@ public class Product extends Audition {
 		return new ProductResponse(id.getProductId(), name, price, discount, priceAfterDiscount, isActivity, isFeature,
 				imageUrls, department.getCategory().mapToCategoryResponseOutDetailsNameAndBrand(), // category
 				null, // department
-				brandCategory.getBrand().mapToBrandResponseOutCategory()// brand
+				brand.mapToBrandResponseOutCategory()// brand
 		);
 	}
 
@@ -130,7 +130,7 @@ public class Product extends Audition {
 		return new ProductResponse(id.getProductId(), name, price, discount, priceAfterDiscount, isActivity, isFeature,
 				imageUrls, null, // category
 				null, // department
-				brandCategory.getBrand().mapToBrandResponseOutCategory()// brand
+				brand.mapToBrandResponseOutCategory()// brand
 		);
 	}
 

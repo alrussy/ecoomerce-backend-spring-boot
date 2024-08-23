@@ -51,18 +51,11 @@ public class SkuProductController {
 		return ResponseEntity.ok(skuProductService.update(skuCode,request));
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{skuCode}")
 	public ResponseEntity<String> delete(@PathVariable String skuCode) {
 		return ResponseEntity.ok(skuProductService.delete(skuCode));
 	}
 	
-	@GetMapping("/test/save")
-	public ResponseEntity<SkuProductResponse> testSave(){
-		return ResponseEntity.ok(skuProductService.testSave());
-	}
-	@GetMapping("/delete/{sku}")
-	public ResponseEntity<?> testdelete(@PathVariable String sku){
-		return ResponseEntity.ok(skuProductService.testdelete(sku));
-	}
+
 
 }

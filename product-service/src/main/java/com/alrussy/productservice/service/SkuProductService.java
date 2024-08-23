@@ -99,19 +99,7 @@ public class SkuProductService {
 		return "Delete By Id " + sku + "Is Success";
 	}
 
-	public SkuProductResponse testSave() {
-		SkuProductRequest request = SkuProductRequest.builder().categoryId(602L).productId(852L)
-				.detailsIds(List.of(
-						DetailsId.builder().detailsId(3L).detailsNameId(2L).build(),
-						DetailsId.builder().detailsId(1L).detailsNameId(1L).build()))
-				.build();
-		return save(request);
-	}
 	
-	public String testdelete(String id) {
-		
-		return delete(id);
-	}
 	
 	
 	private List<SkuProduct> findByProductId(Long id) {
