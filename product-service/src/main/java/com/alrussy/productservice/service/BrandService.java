@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alrussy.productservice.dto.brand_dto.BrandRequest;
 import com.alrussy.productservice.dto.brand_dto.BrandResponse;
 import com.alrussy.productservice.entity.Brand;
+import com.alrussy.productservice.entity.Department;
 import com.alrussy.productservice.repository.BrandRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class BrandService {
 
 	private final BrandRepository brandRepository;
+	private final ProductService productService;
 
 	public List<BrandResponse> findAll() {
 
@@ -53,8 +55,15 @@ public class BrandService {
 
 	@Transactional
 	public void delete(Long id) {
-		brandRepository.deleteBrand(id);
-		brandRepository.deleteAllByIdInBatch(List.of(id));
+		if (!productService.existsByBrandId(id)) {
+
+			brandRepository.deleteBrand(id);
+			brandRepository.deleteAllByIdInBatch(List.of(id));
+		} else {
+			throw new IllegalArgumentException(
+					"can't delete Brand  By ID = " + id + " Brand is refreance with Products");
+		}
+
 	}
 
 	@Transactional

@@ -34,7 +34,7 @@ public class DepartmentController {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<DepartmentResponse> findById(@PathVariable DepartmentId id){
+	public ResponseEntity<DepartmentResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok(departmentService.findById(id));
 	}
 

@@ -15,7 +15,9 @@ public interface ProductRepository extends JpaRepository<Product, ProductId>,Jpa
 	
 	Optional<Product> findByIdProductId(long id);
 	Boolean existsByName(String name);
-	
+	Boolean existsByBrandId(Long brandId);
+	Boolean existsByDepartmentIdDepartmentId(Long departmentId);
+
 	@Transactional
 	@Modifying
 	int deleteByIdProductId(long id);

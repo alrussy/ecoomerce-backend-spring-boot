@@ -26,17 +26,13 @@ public class DetailsService {
 
 	public DetailsResponse findById(Long id) {
 		return detailsRepository.findByIdDetailsId(id)
-				.orElseThrow(() -> new IllegalArgumentException("DetailsValue  By ID = " + id + " Is Not Found"))
+				.orElseThrow(() -> new IllegalArgumentException("Details  By ID = " + id + " Is Not Found"))
 				.mapToDetailsResponse();
 	}
 
 	@Transactional
 	public DetailsResponse save(DetailsRequest detailsRequest) {
 		
-		if(detailsRepository.existsByValue(detailsRequest.getValue())) {
-			throw new IllegalArgumentException("Details Is Exist By Value :"+detailsRequest.getValue());
-
-		}
 			return detailsRepository.save(detailsRequest.mapToDetailsValue()).mapToDetailsResponse();
 		
 	}
@@ -51,7 +47,7 @@ public class DetailsService {
 	public DetailsResponse update(Long id, DetailsRequest details) {
 
 		Details detailsValueFind = detailsRepository.findByIdDetailsId(id)
-				.orElseThrow(() -> new IllegalArgumentException("DetailsValue  By ID = " + id + " Is Not Found "));
+				.orElseThrow(() -> new IllegalArgumentException("Details  By ID = " + id + " Is Not Found "));
 		if (details.getValue() != null) {
 			detailsValueFind.setValue(details.getValue());
 		}

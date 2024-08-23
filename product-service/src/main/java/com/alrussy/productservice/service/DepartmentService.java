@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DepartmentService {
 
 	private final DepartmentRepository departmentRepository;
+	private final ProductService productService;
 
 	public List<DepartmentResponse> findAll() {
 
@@ -27,27 +28,30 @@ public class DepartmentService {
 				.map(department -> department.mapToDepartmentResponseWithCategory()).toList();
 	}
 
-	public DepartmentResponse findById(DepartmentId id) {
+	public DepartmentResponse findById(Long id) {
 
-		return departmentRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("DetailsValue  By ID = " + id + " Is Not Found"))
-				.mapToDepartmentResponseOutCategory();
+		return departmentRepository.findByIdDepartmentId(id)
+				.orElseThrow(() -> new IllegalArgumentException("Department  By ID = " + id + " Is Not Found"))
+				.mapToDepartmentResponseWithCategory();
 	}
 
 	public DepartmentResponse save(DepartmentRequest departmentRequest) {
 		
-		if(departmentRepository.existsByName(departmentRequest.name())) {
-			throw  new IllegalArgumentException("A Department is Exist By name = " + departmentRequest.name()  );
-		}
 		return departmentRepository.save(departmentRequest.mapToDepartment()).mapToDepartmentResponseOutCategory();
 
 	}
 
 	public void delete(Long id) {
-		Department department = departmentRepository.findByIdDepartmentId(id)
-				.orElseThrow(() -> new IllegalArgumentException("Department  By ID = " + id + " Is Not Found "));
-		;
-		departmentRepository.delete(department);
+		if(!productService.existsByDepartmentId(id)) {
+			
+			Department department = departmentRepository.findByIdDepartmentId(id)
+					.orElseThrow(() -> new IllegalArgumentException("Department  By ID = " + id + " Is Not Found "));
+			;
+			departmentRepository.delete(department);
+		}
+		else {
+			throw  new IllegalArgumentException("can't delete Department  By ID = " + id + " department is refreance with products");
+		}
 	}
 
 	public DepartmentResponse update(Long id, DepartmentRequest departmentRequest) {

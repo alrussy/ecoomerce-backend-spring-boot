@@ -43,7 +43,7 @@ public class CategoryService {
 		
 		category.getDetailsNameIds().stream()
 				.forEach(t -> categoryRepository.saveWithDetailsName(categorySave.getId(),t));
-		return categorySave.mapToCategoryResponseWithDetailsNameAndBrand();
+		return categorySave.mapToCategoryResponseOutDetailsNameAndBrand();
 	}
 
 	@Transactional
@@ -65,9 +65,14 @@ public class CategoryService {
 		if (categoryRequest.getImageUrl() != null)
 			categoryFind.setImageUrl(categoryRequest.getImageUrl());
 		if (categoryRequest.getDetailsNameIds() != null && !categoryRequest.getDetailsNameIds().isEmpty()) {
+			categoryRepository.deleteCategorydetailsName(id);
 			categoryRequest.getDetailsNameIds().stream().forEach(t -> categoryRepository.saveWithDetailsName(id, t));
 		}
 
+		if (categoryRequest.getBrandIds() != null && !categoryRequest.getBrandIds().isEmpty()) {
+			categoryRepository.deleteBrandCategory(id);
+			categoryRequest.getBrandIds().stream().forEach(t -> categoryRepository.saveWithBrands(id, t));
+		}
 		return categoryRepository.save(categoryFind).mapToCategoryResponseWithDetailsNameAndBrand();
 	}
 

@@ -38,14 +38,14 @@ public class BrandCategory {
 	@EmbeddedId
 	private BrandCategoryId brandCategoryId;
 	
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name = "categoryId",updatable = false,insertable = false)
 	//@MapsId("categoryId")
 	private Category category;
 	
 	@ManyToOne
-	@JoinColumn(name = "brand_id",updatable = false,insertable = false)
-	@MapsId("brandId")
+	@JoinColumn(name = "brandId",updatable = false,insertable = false)
+	//@MapsId("brandId")
 	private Brand brand;
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.alrussy.productservice.dto.product_dto.ProductFilter;
 import com.alrussy.productservice.dto.product_dto.ProductRequest;
 import com.alrussy.productservice.dto.product_dto.ProductResponse;
+import com.alrussy.productservice.entity.Brand;
 import com.alrussy.productservice.entity.Department;
 import com.alrussy.productservice.entity.Product;
 import com.alrussy.productservice.entity.id.BrandCategoryId;
@@ -17,9 +18,11 @@ import com.alrussy.productservice.repository.ProductRepository;
 import com.alrussy.productservice.repository.specification.ProductSpecification;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductService {
 
 	private final ProductRepository productRepository;
@@ -39,16 +42,13 @@ public class ProductService {
 	}
 	public ProductResponse save(ProductRequest productRequest) {
 
-		return productRepository.save(productRequest.mapToprProduct()).mapToproductResponseWithCategoryBrandAndDepartment();
+		return productRepository.save(productRequest.mapToprProduct()).mapToproductResponseOutCategoryBrandAndDepartment();
 	}
 	
 	public ProductResponse update(Long id, ProductRequest productRequest) {
 		ProductResponse  response=null;
 		Product product = productRepository.findByIdProductId(id)
 				.orElseThrow(() -> new IllegalArgumentException("the record is not found"));
-		
-			
-		
 			if (productRequest.name() != null && !productRequest.name().isEmpty()) {
 				product.setName(productRequest.name());
 			}
@@ -73,23 +73,25 @@ public class ProductService {
 			}
 			
 			if (productRequest.brandId() != null && productRequest.categoryId() != null) {
-				product.setBrandCategory(
-						BrandCategory.builder()
-								.brandCategoryId(BrandCategoryId.builder()
-										.brandId(productRequest.brandId()).categoryId(productRequest.categoryId()).build())
-								.build());
+				log.info(" Brand Id={}",productRequest.brandId());
+				product.setBrand( Brand.builder().id(productRequest.brandId()).build());
 			}
 			
 			response= productRepository.save(product).mapToproductResponseOutCategoryBrandAndDepartment();
-	
-			
-		
 		return response;
 	}
 
 	public String delete(Long id) {
-		productRepository.deleteByIdProductId(id);
+		Product product = productRepository.findByIdProductId(id)
+				.orElseThrow(() -> new IllegalArgumentException("the record is not found"));
+		productRepository.delete(product);
 		return "delete is Successfuly";
 	}
 	
+	public  Boolean existsByDepartmentId(Long departmentId) {
+		return productRepository.existsByDepartmentIdDepartmentId(departmentId);
+	}
+	public Boolean existsByBrandId(Long brandId) {
+		return productRepository.existsByBrandId(brandId);
+	}
 }
