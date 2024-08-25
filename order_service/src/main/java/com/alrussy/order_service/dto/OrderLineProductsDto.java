@@ -1,5 +1,4 @@
 package com.alrussy.order_service.dto;
-import java.math.BigDecimal;
 
 import com.alrussy.order_service.model.OrderLineProducts;
 
@@ -14,19 +13,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderLineItemsDto {
+public class OrderLineProductsDto {
 
-	private Long inventoryId;
-    private BigDecimal price;
+	private String skuCode;
+    private Double price;
+    private Double discount;
     private Integer quentity;
 
-
     
-    public OrderLineProducts mapToOrderLineItems() {
-        return OrderLineProducts.builder()
-                .inventoryId(inventoryId)
-                .price(price)
-                .quentity(quentity)
-                .build();
+    
+    
+    public OrderLineProducts mapToOrderLineProducts() {
+    	return OrderLineProducts.builder().skuCode(skuCode).price(price).discount(discount).quentity(quentity).build();
     }
 }

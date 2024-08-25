@@ -1,8 +1,11 @@
 package com.alrussy.order_service.dto;
+
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.alrussy.order_service.model.Order;
+import com.alrussy.order_service.model.enums.States;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -17,17 +20,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class OrderRequest {
-	
-  private String ordeNumber;
-   @JsonProperty("card")
-  private List<OrderLineItemsDto> card;
 
+	private Long addressId;
+	private String paymentId;
+	private Double total;
 
+	@JsonProperty("card")
+	private List<OrderLineProductsDto> orderLineProducts;
 
-
-    public Order mapToOrderRequest(){
-        return Order.builder().orderNumber(ordeNumber)
-        .card(card.stream().map(OrderLineItemsDto::mapToOrderLineItems).toList())
-        .build();
-    }
+	public Order mapToOrderRequest() {
+		return Order.builder().addressId(addressId).paymentId(paymentId).total(total).orderLineProducts(
+				orderLineProducts != null
+						? orderLineProducts.stream().map(OrderLineProductsDto::mapToOrderLineProducts).collect(Collectors.toSet())
+						: null)
+				.build();
+	}
 }
