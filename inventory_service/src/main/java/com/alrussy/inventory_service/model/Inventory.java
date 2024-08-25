@@ -3,6 +3,7 @@ package com.alrussy.inventory_service.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.alrussy.inventory_service.dto.InventoryResponse;
 
@@ -32,20 +33,17 @@ public class Inventory {
     private Integer quantity;
    
     @Builder.Default
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private Set<ActionInventory> actionInventories=new HashSet();
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<ActionInventory> actionInventories=new HashSet<>();
     
     public void addAction(ActionInventory action){
     	 this.actionInventories.add(action);	 
     }
-    public void removeAction(ActionInventory action){
-   	 this.actionInventories.remove(action);	 
-   }
-    
+   
     
     public InventoryResponse mapTonventoryResponse() {
     	return InventoryResponse.builder().skuCode(skuCode).quantity(quantity).actionInventories(
-    			actionInventories.stream().toList())
+    			actionInventories.stream().collect(Collectors.toList()))
     			.build();  
     }
     public InventoryResponse mapTonventoryResponseOutActions() {

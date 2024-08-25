@@ -20,7 +20,8 @@ public class InventoryRequest {
 	
 	public List<Inventory> mapToListInventory(){
 		
-		return lineProducts.stream().map(lp->Inventory.builder()
+		return lineProducts.stream().map(lp->
+		Inventory.builder()
 				.skuCode(lp.getSkuCode())
 				.quantity(lp.getQuentity())
 				.build()).toList();

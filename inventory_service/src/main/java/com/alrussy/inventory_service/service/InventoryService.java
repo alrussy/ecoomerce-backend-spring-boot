@@ -35,7 +35,7 @@ public class InventoryService {
 	public String order(InventoryOrderRequest order) {
 	List<Inventory> listInventory=new ArrayList<>();
 	order.getLineProducts().forEach(lp -> {
-			Inventory inventoryFind = repository.findById(lp.getSkuCode()).orElseThrow();
+			Inventory inventoryFind = repository.findBySkuCode(lp.getSkuCode()).orElseThrow();
 			int quentityNew = inventoryFind.getQuantity();
 			quentityNew = quentityNew - lp.getQuentity();
 
@@ -45,7 +45,7 @@ public class InventoryService {
 
 			else {
 				inventoryFind.setQuantity(quentityNew);
-
+				
 				ActionInventory actionInventory = ActionInventory.builder().dateAction(LocalDateTime.now()).numberAction(order.getOrderId().toString())
 						.actionType("order").quentity(lp.getQuentity()).build();
 				
@@ -64,22 +64,26 @@ public class InventoryService {
 
 		String numberAction = UUID.randomUUID().toString();
 		lineProducts.stream().forEach(lp -> {
-			Optional<Inventory> inventoryFind = repository.findById(lp.getSkuCode());
+			Optional<Inventory> inventoryFind = repository.findBySkuCode(lp.getSkuCode());
 			ActionInventory actionInventory = ActionInventory.builder().dateAction(LocalDateTime.now()).numberAction(numberAction)
-					.actionType("Store").quentity(lp.getQuentity()).build();
+					.actionType("store").quentity(lp.getQuentity()).build();
+			
+			
 			if (inventoryFind.isPresent()) {
-
+				log.info("action action={}",actionInventory.toString());
 				Inventory inventory = inventoryFind.get();
 				int quentityNew = inventory.getQuantity();
 				quentityNew = quentityNew + lp.getQuentity();
 				inventory.setQuantity(quentityNew);
-				
 				inventory.addAction(actionInventory);
+				
+				
 				repository.save(inventory);
 
 			}
 
 			else {
+				log.info("action num={}",actionInventory.getNumberAction());
 				Inventory newInventory = Inventory.builder().skuCode(lp.getSkuCode()).quantity(lp.getQuentity()).build();
 				newInventory.addAction(actionInventory);
 
@@ -95,7 +99,8 @@ public class InventoryService {
 
 	public String storeTest() {
 
-		return store(List.of(LineProduct.builder().skuCode("123411").quentity(11).build(),
+		return store(List.of(
+				LineProduct.builder().skuCode("123411").quentity(11).build(),
 				LineProduct.builder().skuCode("123412").quentity(12).build(),
 				LineProduct.builder().skuCode("123413").quentity(13).build()
 
