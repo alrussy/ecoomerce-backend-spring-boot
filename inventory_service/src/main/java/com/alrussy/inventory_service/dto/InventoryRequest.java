@@ -2,7 +2,6 @@ package com.alrussy.inventory_service.dto;
 
 import java.util.List;
 
-import com.alrussy.inventory_service.model.Details;
 import com.alrussy.inventory_service.model.Inventory;
 
 import lombok.AllArgsConstructor;
@@ -17,20 +16,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class InventoryRequest {
-	private String productId;
-	private Integer quantity;
-	private List<DetailsRequest> details;
+	private List<LineProduct> lineProducts;
 	
-	
-	
-	
-	public Inventory mapToInventory(){
+	public List<Inventory> mapToListInventory(){
 		
-		return Inventory.builder()
-		.productId(productId)
-		.quantity(quantity)
-		.details(details.stream().map(d->Details.builder().valueId(d.getValueId()).build()).toList())
-		.build();
+		return lineProducts.stream().map(lp->Inventory.builder()
+				.skuCode(lp.getSkuCode())
+				.quantity(lp.getQuentity())
+				.build()).toList();
+		
 		
 	}
 	

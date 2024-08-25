@@ -1,7 +1,6 @@
 package com.alrussy.inventory_service.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alrussy.inventory_service.dto.InventoryOrder;
-import com.alrussy.inventory_service.dto.InventoryRequest;
+import com.alrussy.inventory_service.dto.InventoryOrderRequest;
 import com.alrussy.inventory_service.dto.InventoryResponse;
+import com.alrussy.inventory_service.dto.LineProduct;
 import com.alrussy.inventory_service.service.InventoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,31 +29,43 @@ public class InventoryController {
 
     
     
-    @GetMapping("/product/{id}")
-    public ResponseEntity<?> getInventoriesBySkuCode(@PathVariable("id") String id){
-       return ResponseEntity.ok(service.getInventoriesByProductId(id));
+    @GetMapping("/sku/{skuCode}")
+    public ResponseEntity<InventoryResponse> getInventoriesBySkuCode(@PathVariable("skuCode") String id){
+       return ResponseEntity.ok(service.getInventoriesBySkuCode(id));
 
     }
 
     @GetMapping
-    public List<InventoryResponse> findAll(){
-       return service.findAll();
+    public ResponseEntity<List<InventoryResponse>> findAll(){
+       return ResponseEntity.ok(service.findAll());
 
     }
 
-    @PostMapping
-    public String storeItem(@RequestBody InventoryRequest inventory) {  
+    @PostMapping("/store")
+    public String store(@RequestBody List<LineProduct> lineProducts) {  
         log.info("====================send inventory request is successfuly");
-        return service.storeItem(inventory);
+        return service.store(lineProducts);
     }
   
-    
+    @GetMapping("/store")
+    public String store() {  
+        log.info("====================send inventory request is successfuly");
+        return service.storeTest();
+    }
+    @GetMapping("/order")
+    public String order() {  
+        log.info("====================send inventory request is successfuly");
+        return service.order();
+    }
+     
     @PutMapping("/order")
-    public String orderProduct(@RequestBody InventoryOrder order) {  
-        return service.orderProducts(order);
+    public String orderProduct(@RequestBody InventoryOrderRequest orderRequest) { 
+        log.info("order id={}",orderRequest.getOrderId());
+        orderRequest.getLineProducts().stream().forEach(t->
+        log.info(" skuCode={} , quentity={}",t.getSkuCode(),t.getQuentity()));
+        
+    	
+        return service.order(orderRequest);
     }
-    @GetMapping("/add/{id}")
-    public String addQuentityToProduct(@PathVariable Long id,@RequestParam Integer quentity) {  
-        return service.addQuentityToProduct(id,quentity);
-    }
+
 }

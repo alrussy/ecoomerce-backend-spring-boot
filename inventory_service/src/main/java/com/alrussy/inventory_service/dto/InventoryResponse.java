@@ -3,6 +3,7 @@ package com.alrussy.inventory_service.dto;
 import java.util.List;
 
 import com.alrussy.inventory_service.client.product.DetailsProduct;
+import com.alrussy.inventory_service.model.ActionInventory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,9 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class InventoryResponse {
-	private Long id; 
-	private String productId;
-	private Integer quantity;
-	private List<DetailsProduct> details;
-	
+	private String skuCode;
+	private Integer quantity;	
+	private List<ActionInventory> actionInventories;
 }

@@ -1,5 +1,6 @@
 package com.alrussy.inventory_service.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -31,6 +32,7 @@ public class ActionInventory{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String actionType;
+	private LocalDateTime dateAction;
 	private String numberAction;
 	private Integer quentity;
 }

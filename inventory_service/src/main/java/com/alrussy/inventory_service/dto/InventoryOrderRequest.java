@@ -1,5 +1,7 @@
 package com.alrussy.inventory_service.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +14,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class InventoryOrderRequest {
-	private Long InventoryId;
-	private Integer quentity;
+	private String orderId;
+	List<LineProduct> lineProducts;
 }
