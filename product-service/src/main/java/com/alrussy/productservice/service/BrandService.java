@@ -30,22 +30,14 @@ public class BrandService {
 	
 	@Transactional
 	public BrandResponse save(BrandRequest brand) {
-		if (brand != null && brand.getCategoryIds()!=null) {
-			final Brand brandReturn = brandRepository.saveAndFlush(brand.mapToBrand());
-			brand.getCategoryIds().stream().forEach(t -> brandRepository.saveWithCategories(t, brandReturn.getId()));
-			
-			return brandReturn.mapToBrandResponse();
-			
+		return 	brandRepository.save(brand.mapToBrand()).mapToBrandResponse();
 		}
 		
-		else
-			throw new IllegalArgumentException("CategoryIds[] must not empty... plaese add one category at least");
+	public BrandResponse save() {
+	var brand =	BrandRequest.builder().categoryIds(List.of(1L)).name("brand1").build();
+		return 	brandRepository.save(brand.mapToBrand()).mapToBrandResponse();
+		}
 		
-		
-		
-		
-	}
-	
 	
 	@Transactional
 	public void delete(Long id) {

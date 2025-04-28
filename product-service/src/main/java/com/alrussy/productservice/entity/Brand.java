@@ -40,14 +40,14 @@ public class Brand extends Audition{
 	private String name;
 	private String imageUrl;
 
-	@OneToMany(cascade = CascadeType.MERGE, targetEntity = BrandCategory.class)
-	@JoinColumn(name = "brandId")
-	private List<BrandCategory> categories;
+	@OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+	private List<BrandCategory> brandCategories;
 	
 
 	public BrandResponse mapToBrandResponse() {
 		return new BrandResponse(id,name,imageUrl,
-				categories.stream().map(category->category.getBrandCategoryId().getCategory().mapToCategoryResponse()).toList());
+				brandCategories.stream().map( category ->
+				category.getCategory().mapToCategoryResponse()).toList());
 				
 	}
 

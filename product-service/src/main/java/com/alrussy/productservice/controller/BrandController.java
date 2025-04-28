@@ -43,6 +43,11 @@ public class BrandController {
 	public ResponseEntity<List<BrandResponse>> findByName(@PathVariable String name){
 		return ResponseEntity.ok(brandService.findByName(name));
 	}
+	
+	@GetMapping("/save")
+	public ResponseEntity<BrandResponse> testSave(){
+		return ResponseEntity.ok(brandService.save());
+	}
 	@PostMapping
 	public ResponseEntity<BrandResponse> save(@RequestBody BrandRequest brand){
 		return ResponseEntity.ok(brandService.save(brand));

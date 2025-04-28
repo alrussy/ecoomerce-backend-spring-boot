@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.alrussy.productservice.entity.Brand;
 import com.alrussy.productservice.entity.Category;
-import com.alrussy.productservice.entity.id.BrandCategoryId;
+import com.alrussy.productservice.entity.CategoryBrandId;
 import com.alrussy.productservice.entity.table.BrandCategory;
 
 import lombok.AllArgsConstructor;
@@ -26,13 +26,10 @@ public class BrandRequest {
 
 	public Brand mapToBrand() {
 		return Brand.builder().name(name).imageUrl(imageUrl)
-				.categories(categoryIds != null
+				.brandCategories(categoryIds != null
 						? categoryIds.stream()
-								.map(t -> BrandCategory.builder()
-										.brandCategoryId(BrandCategoryId.builder()
-												.category(Category.builder().id(t).build()).build())
-										.build())
-								.toList()
+							
+								.map(t ->BrandCategory.builder().id(CategoryBrandId.builder().categoryId(t).brandId(1L).build()).category(Category.builder().id(t).build()).build() ).toList()
 						: null)
 				.build();
 

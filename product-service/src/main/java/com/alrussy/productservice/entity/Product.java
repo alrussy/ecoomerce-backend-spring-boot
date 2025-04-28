@@ -47,8 +47,8 @@ public class Product extends Audition {
 
 	public ProductResponse mapToproductResponse() {
 		return new ProductResponse(id, name, price, isActivity,
-				new CategoryResponse(brandCategory.getBrandCategoryId().getCategory().getId(),brandCategory.getBrandCategoryId().getCategory().getName(),brandCategory.getBrandCategoryId().getCategory().getImageUrl()),
-				new BrandResponse(brandCategory.getBrandCategoryId().getBrand().getId(), brandCategory.getBrandCategoryId().getBrand().getName(), brandCategory.getBrandCategoryId().getBrand().getImageUrl(), null));
+				new CategoryResponse(brandCategory.getCategory().getId(),brandCategory.getCategory().getName(),brandCategory.getCategory().getImageUrl()),
+				new BrandResponse(brandCategory.getBrand().getId(), brandCategory.getBrand().getName(), brandCategory.getBrand().getImageUrl(), null));
 						
 
 	}

@@ -1,16 +1,14 @@
 package com.alrussy.productservice.entity.table;
 
-import java.util.List;
-
-import com.alrussy.productservice.entity.Product;
-import com.alrussy.productservice.entity.id.BrandCategoryId;
+import com.alrussy.productservice.entity.Brand;
+import com.alrussy.productservice.entity.Category;
+import com.alrussy.productservice.entity.CategoryBrandId;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,14 +24,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "brand_category")
+@Table(name = "category_brand")
 
 public class BrandCategory {
 	
 	@EmbeddedId
-	private BrandCategoryId brandCategoryId;
+	private CategoryBrandId id;
 	
-	@OneToMany(mappedBy = "brandCategory")
-	private List<Product> productts;
+	@ManyToOne
+	@JoinColumn(name = "categoryId",insertable = false,updatable = false)
+	private Category category;
+	
+	@ManyToOne
+	@JoinColumn(name = "brandId",insertable = false,updatable = false)
+	private Brand brand;
+	
+	
 
 }
